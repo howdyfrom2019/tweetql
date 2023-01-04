@@ -19,6 +19,10 @@ let users = [
   {
     id: "1",
     username: "성주"
+  },
+  {
+    id: "2",
+    username: "민지"
   }
 ];
 
@@ -72,7 +76,8 @@ const resolvers = {
     },
   },
   User: {
-    nickname() {
+    nickname(root) {
+      console.log(root);
       return "jake";
     }
   }
