@@ -35,13 +35,18 @@ const config: Configuration = {
             [
               '@babel/preset-env',
               {
-                targets: { browsers: ['IE 10'] },
+                targets: 'last 2 versions',
                 debug: isDev,
               },
             ],
             '@babel/preset-react',
             '@babel/preset-typescript',
           ],
+          env: {
+            development: {
+              plugins: [require.resolve('react-refresh/babel')],
+            },
+          },
           exclude: path.join(__dirname, 'node_modules'),
         },
       },
@@ -57,9 +62,10 @@ const config: Configuration = {
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public/index.html'),
+      filename: './index.html',
       minify: true,
     }),
-    new webpack.EnvironmentPlugin({ NODE_ENV: isDev ? 'devlopment' : 'production' }),
+    new webpack.EnvironmentPlugin({ NODE_ENV: isDev ? 'development' : 'production' }),
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -70,7 +76,7 @@ const config: Configuration = {
     historyApiFallback: true,
     port: 3000,
     devMiddleware: { publicPath: '/dist/' },
-    static: { directory: path.resolve(__dirname) },
+    static: { directory: path.resolve(__dirname, 'dist') },
     hot: true,
     compress: true,
   },
