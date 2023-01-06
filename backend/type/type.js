@@ -34,10 +34,7 @@ export const SummonerType = gql`
   }
   
   extend type Query {
-      summoner: SummonerInfo!
-  }
-  
-  extend type Mutation {
-      getSummonerInfo(name: String!): SummonerInfo!
+      summoner(name: String!): SummonerInfo!
+      league(encryptedSummonerId: String!): LeagueInfo!
   }
 `;
