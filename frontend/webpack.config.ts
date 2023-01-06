@@ -65,6 +65,9 @@ const config: Configuration = {
       filename: './index.html',
       minify: true,
     }),
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
     new webpack.EnvironmentPlugin({ NODE_ENV: isDev ? 'development' : 'production' }),
   ],
   output: {
