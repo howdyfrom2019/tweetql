@@ -18,9 +18,9 @@ const config: Configuration = {
   devtool: isDev ? 'hidden-source-map' : 'inline-source-map',
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    alias: {
-      '@/*': path.resolve(__dirname, 'src'),
-    },
+    // alias: {
+    //   '@': path.resolve(__dirname, 'src'),
+    // },
   },
   entry: {
     app: './src/Index',
@@ -55,6 +55,9 @@ const config: Configuration = {
         use: ['style-loader', 'css-loader'],
       },
     ],
+  },
+  optimization: {
+    runtimeChunk: 'single',
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
