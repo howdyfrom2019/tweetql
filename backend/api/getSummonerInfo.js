@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export default async function getSummonerInfo(nickname) {
   const data = await fetch(`${process.env.RIOT_URL}/summoner/v4/summoners/by-name/${nickname}`, {
     method: "GET",
