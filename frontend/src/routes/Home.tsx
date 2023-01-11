@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { ReactComponent as Logo } from '../assets/logo.svg';
+import Input from '../components/Input/Input';
 
 const Home = () => {
   return (
-    <div className={`mt-40 flex flex-col gap-12`}>
-      <Logo />
+    <div className={`flex flex-col gap-12 items-center`}>
+      <Logo className={`mt-40`} />
+      <Input />
+      <div>hihi hello 안녕</div>
     </div>
   )
 }

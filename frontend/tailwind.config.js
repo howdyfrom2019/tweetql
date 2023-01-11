@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config }*/
 
 module.exports = {
-  purge: [],
+  purge: ['./src/**/*.{html,js,jsx,ts,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -15,7 +15,11 @@ module.exports = {
         whiteAlpha: 'rgba(255, 255, 255, 0.4)',
         primary: '#32315b',
         primaryDark: '#313059',
-      }
+      },
+      boxShadow: {
+        'search-bar': '-1px -1px 0 1px #383762',
+        'section': '-2px -1px 2px #383762',
+      },
     },
   },
   variants: {
@@ -25,10 +29,6 @@ module.exports = {
       },
       scale: {
         'reverse': '-1',
-      },
-      boxShadow: {
-        'search-bar': '-2px -1px 0 1px #383762',
-        'section': '-2px -1px 2px #383762',
       },
     },
   },

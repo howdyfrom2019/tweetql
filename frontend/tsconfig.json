@@ -3,7 +3,6 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "sourceMap": true,
-    "composite": true,
     "noImplicitAny": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
