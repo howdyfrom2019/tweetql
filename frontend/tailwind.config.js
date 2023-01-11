@@ -5,6 +5,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      spacing: {
+        'content-desktop': '1107px',
+      },
       colors: {
         yellow: '#fcc563',
         black: '#333333',

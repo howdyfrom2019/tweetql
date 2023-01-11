@@ -54,6 +54,10 @@ const config: Configuration = {
         test: /\.css?$/,
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
+      {
+        test: /\.svg?$/,
+        use: ['@svgr/webpack', 'url-loader'],
+      }
     ],
   },
   optimization: {

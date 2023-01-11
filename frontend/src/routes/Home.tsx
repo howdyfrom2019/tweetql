@@ -1,17 +1,11 @@
 import React, { useEffect } from 'react';
+import { ReactComponent as Logo } from '../assets/logo.svg';
 
 const Home = () => {
-  const getPlayList = async () => {
-    const ytMusic = (await fetch("hi", {
-      method: "GET",
-    })).json();
-    console.log(ytMusic);
-  }
   return (
-    <div onClick={(e) => {
-      e.preventDefault();
-      getPlayList();
-    }}>안녕 홈이야!</div>
+    <div className={`mt-40 flex flex-col gap-12`}>
+      <Logo />
+    </div>
   )
 }
 
