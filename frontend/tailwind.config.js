@@ -15,6 +15,7 @@ module.exports = {
         whiteAlpha: 'rgba(255, 255, 255, 0.4)',
         primary: '#32315b',
         primaryDark: '#313059',
+        highlight: '#414073',
       },
       boxShadow: {
         'search-bar': '-1px -1px 0 1px #383762',

@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className={`flex flex-col gap-12 items-center`}>
       <Logo className={`mt-40`} />
-      <Input />
+      <Input showSearchIcon className={`w-content-desktop`} />
       <div>hihi hello 안녕</div>
     </div>
   )

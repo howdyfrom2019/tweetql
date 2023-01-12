@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
+import { ReactComponent as Search } from '../../assets/search.svg';
 
-const Input = () => {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  showSearchIcon?: boolean
+}
+
+const Input: React.FC<InputProps> = ({ className, showSearchIcon, ...props }) => {
   return (
-    <input className={`bg-primary shadow-search-bar px-4 py-3 w-10vw rounded-full`} />
+    <div className={`relative ${className}`}>
+      <input className={`bg-primary shadow-search-bar px-4 py-3 w-10vw rounded-full w-full outline-none hover:bg-highlight focus:bg-highlight`} {...props} />
+      {showSearchIcon && <Search className={'absolute right-0 top-1/2 -translate-y-1/2 mr-4 scale-[0.6] cursor-pointer'} />}
+    </div>
   )
 };
 
