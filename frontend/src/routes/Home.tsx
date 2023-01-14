@@ -1,24 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import Input from '../components/Input/Input';
-import { gql, useApolloClient } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
+
+const SUMMONERS_FAKER = gql`
+    {
+        summoner(name: "hide on bush") {
+            id
+            name
+            puuid
+        }
+    }
+`;
 
 const Home = () => {
-  const client = useApolloClient();
-
-  useEffect(() => {
-    client.query({
-      query: gql`
-          {
-              summoner(name: "hide on bush") {
-                  id
-                  name
-                  puuid
-              }
-          }
-      `
-    }).then((res) => console.log(res));
-  }, [client]);
+  const { data, loading, error } = useQuery(SUMMONERS_FAKER);
+  console.log(data, loading, error);
 
   return (
     <div className={`flex flex-col gap-12 items-center`}>
