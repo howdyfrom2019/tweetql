@@ -5,17 +5,4 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-client.query({
-  query: gql`
-      {
-          summoner(name: "hide on bush") {
-              id
-              name
-              puuid
-          }
-      }
-  `,
-}).then(data => console.log(data))
-.catch(e => console.log(e));
-
 export default client;
