@@ -52,10 +52,10 @@ export const SummonerType = gql`
   
   type ChampionStat {
       hp: Int!
-      hpperlevel: Int!
-      mp: Int!
-      mpperlevel: Int!
-      movespeedd: Int!
+      hpperlevel: Float!
+      mp: Float!
+      mpperlevel: Float!
+      movespeedd: Int
       armor: Int!
       armorperlevel: Float!
       spellblock: Int!
@@ -63,13 +63,13 @@ export const SummonerType = gql`
       attackrange: Int!
       hpregen: Float!
       hpregenperlevel: Float!
-      mpregen:Int!
+      mpregen:Float!
       mpregenperlevel:Float!
       crit: Int!
       critperlevel:Int! 
       attackdamage:Int!
-      attackdamageperlevel:Int!
-      attackspeedperlevel:Int!
+      attackdamageperlevel:Float!
+      attackspeedperlevel:Float!
       attackspeed:Float!
   }
   
