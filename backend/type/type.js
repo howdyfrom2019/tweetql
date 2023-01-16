@@ -33,8 +33,15 @@ export const SummonerType = gql`
       miniSeries: miniSeriesType!
   }
   
+  type ChampionInfo {
+      type: String!
+      format: String!
+      version: String!
+  }
+  
   extend type Query {
       summoner(name: String!): SummonerInfo!
       league(encryptedSummonerId: String!): LeagueInfo!
+      latestVersion: [String!]!
   }
 `;

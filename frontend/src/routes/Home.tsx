@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import Input from '../components/Input/Input';
-import { gql, useApolloClient, useQuery } from '@apollo/client';
+import { gql, useApolloClient } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 
 const SUMMONERS = gql`
