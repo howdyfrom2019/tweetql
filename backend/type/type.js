@@ -33,15 +33,63 @@ export const SummonerType = gql`
       miniSeries: miniSeriesType!
   }
   
+  type ChampionSpecification {
+      attack: Int!
+      defense: Int!
+      magic: Int!
+      difficulty: Int!
+  }
+  
+  type ChampionImgInfo {
+      full: String!
+      sprite: String!
+      group: String!
+      x: Int!
+      y: Int!
+      w: Int!
+      h: Int!
+  }
+  
+  type ChampionStat {
+      hp: Int!
+      hpperlevel: Int!
+      mp: Int!
+      mpperlevel: Int!
+      movespeedd: Int!
+      armor: Int!
+      armorperlevel: Float!
+      spellblock: Int!
+      spellblockperlevel: Float!
+      attackrange: Int!
+      hpregen: Float!
+      hpregenperlevel: Float!
+      mpregen:Int!
+      mpregenperlevel:Float!
+      crit: Int!
+      critperlevel:Int! 
+      attackdamage:Int!
+      attackdamageperlevel:Int!
+      attackspeedperlevel:Int!
+      attackspeed:Float!
+  }
+  
   type ChampionInfo {
-      type: String!
-      format: String!
       version: String!
+      id: ID!
+      key: Int!
+      title: String!
+      blurb: String!
+      info: ChampionSpecification!
+      image: ChampionImgInfo!
+      tags: [String!]!
+      partype: String!
+      stats: ChampionStat!
   }
   
   extend type Query {
       summoner(name: String!): SummonerInfo!
       league(encryptedSummonerId: String!): LeagueInfo!
       latestVersion: [String!]!
+      allChampion(version: String!): [ChampionInfo]!
   }
 `;
