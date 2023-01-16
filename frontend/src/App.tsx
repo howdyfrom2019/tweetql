@@ -2,12 +2,14 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import User from './routes/User';
+import Champion from './routes/Champion';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={"/"} element={<Home />} />
+        <Route index element={<Home />} />
+        <Route path={"/champion"} element={<Champion />} />
         <Route path={"/user"} element={<User />}>
           <Route path={"/user/:id"} element={<User />} />
         </Route>

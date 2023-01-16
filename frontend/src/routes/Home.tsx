@@ -1,18 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import Input from '../components/Input/Input';
-import { gql, useApolloClient } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
-
-const SUMMONERS = gql`
-    query getSummonerInfo($name: String!){
-        summoner(name: $name) {
-            id
-            name
-            puuid
-        }
-    }
-`;
+import { useApolloClient } from '@apollo/client';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { SUMMONERS } from '../type/api';
 
 const Home = () => {
   const navigator = useNavigate();
@@ -34,7 +25,11 @@ const Home = () => {
 
   return (
     <div className={`flex flex-col gap-12 items-center`}>
-      <Logo className={`mt-40`} />
+      <div className={'flex gap-6 justify-center items-center mt-10'}>
+        <NavLink to={'/'} className={({ isActive }) => `font-regular-18 ${!isActive && 'text-whiteAlpha'}`}>전적검색</NavLink>
+        <NavLink to={'/champion'} className={({ isActive }) => `font-regular-18 ${!isActive && 'text-whiteAlpha'}`}>챔피언 정보</NavLink>
+      </div>
+      <Logo className={`mt-24`} />
       <Input
         showSearchIcon
         className={`w-content-desktop`}
