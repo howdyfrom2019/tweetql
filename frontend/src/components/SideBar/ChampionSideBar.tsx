@@ -25,7 +25,7 @@ const ChampionSideBar: React.FC<ChampionSideBarType> = ({ selectedVersionCallbac
 
   return (
     <aside className={`fixed top-0 left-0 w-72 h-screen flex flex-col justify-around items-center shadow-section bg-section`}>
-      <Logo className={'scale-50 my-6'} />
+      <Logo className={'scale-[67%] my-6'} />
       <article className={'flex flex-col flex-1'}>
         <section className={'flex flex-col items-center flex-1'}>
           <span className={'font-regular-18 tracking-label uppercase text-label'}>Recently Searched</span>
