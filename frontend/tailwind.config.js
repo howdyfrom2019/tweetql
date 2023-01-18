@@ -21,11 +21,22 @@ module.exports = {
         section: '#35345e',
         label: '#6d6ca3',
         highlight: '#414073',
+        lolYellow: '#a0946e',
+        lolGreen: '#495a5a',
       },
       boxShadow: {
         'search-bar': '-1px -1px 0 1px #383762',
         'section': '-2px -1px 2px #383762',
       },
+      animation: {
+        'open-close': 'openClose ease-out 0.14s both',
+      },
+      keyframes: {
+        openClose: {
+          from: { transform: 'translateY(-5px) rotate(0)' },
+          to: { transform: 'translateY(-5px) rotate(180deg)' }
+        },
+      }
     },
   },
   variants: {
