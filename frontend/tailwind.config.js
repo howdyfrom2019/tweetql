@@ -8,6 +8,9 @@ module.exports = {
       spacing: {
         'content-desktop': '1107px',
       },
+      letterSpacing: {
+        'label': '0.3rem',
+      },
       colors: {
         yellow: '#fcc563',
         black: '#333333',
@@ -15,6 +18,8 @@ module.exports = {
         whiteAlpha: 'rgba(255, 255, 255, 0.4)',
         primary: '#32315b',
         primaryDark: '#313059',
+        section: '#35345e',
+        label: '#6d6ca3',
         highlight: '#414073',
       },
       boxShadow: {
