@@ -12,6 +12,8 @@ interface SelectorProps {
   placeholder?: string;
 }
 
+const SELECTOR_ITEM_STYLE = 'px-4 py-2 w-40 text-lolYellow border border-lolYellow';
+
 const Selector: React.FC<SelectorProps> = ({ categories, initId, placeholder }) => {
   const [selectedCategory, setSelectedCategory] = useState({ id: -1, content: '', });
   const [openList, setOpenList] = useState(false);
@@ -29,7 +31,7 @@ const Selector: React.FC<SelectorProps> = ({ categories, initId, placeholder }) 
     e.preventDefault();
     e.stopPropagation();
     setOpenList((prev) => !prev);
-    //TODO: execute function which determine figure it out what index user selecting.
+    //TODO: execute function which figure it out what index user selecting.
   }, []);
 
   useEffect(() => {
@@ -37,12 +39,19 @@ const Selector: React.FC<SelectorProps> = ({ categories, initId, placeholder }) 
   }, [initId]);
 
   return (
-    <button
-      className={`px-4 py-2 w-40 text-lolYellow border border-lolYellow selector-button ${openList ? 'after:animate-open-close' : ''}`}
-      onClick={onHandlerToggleSelector}
-    >
-      {selectedCategory.content}
-    </button>
+    <>
+      <button
+        className={`${SELECTOR_ITEM_STYLE} selector-button ${openList ? 'after:animate-open-close' : ''}`}
+        onClick={onHandlerToggleSelector}
+      >
+        {selectedCategory.content}
+      </button>
+      <div className={`${openList ? 'flex' : 'hidden'} flex-col`}>
+        {categories.map((category) => (
+          <span key={`selector_${category.id}`} className={`${SELECTOR_ITEM_STYLE} mt-[-1px]`}>{category.content}</span>
+        ))}
+      </div>
+    </>
   )
 }
 

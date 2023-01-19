@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config }*/
 
 module.exports = {
-  purge: ['./src/**/*.{html,js,jsx,ts,tsx}'],
+  content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -34,7 +34,7 @@ module.exports = {
       keyframes: {
         openClose: {
           from: { transform: 'translateY(-5px) rotate(0)' },
-          to: { transform: 'translateY(-5px) rotate(180deg)' }
+          to: { transform: 'translateY(-13px) rotate(180deg)' }
         },
       }
     },
