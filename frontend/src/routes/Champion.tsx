@@ -1,11 +1,13 @@
-import React, { Dispatch, useCallback, useReducer, useState } from 'react';
+import React, { Dispatch, useCallback, useMemo, useReducer, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import ChampionSideBar from '../components/SideBar/ChampionSideBar';
 import { useQuery } from '@apollo/client';
 import { ALL_CHAMPIONS } from '../type/api';
 import Selector from '../components/Selector/Selector';
 import LaneNavigator from '../components/LaneNavigator/LaneNavigator';
-import { ChampionFilterType, LANE_TYPE, ORDER_TYPE } from '../type/type';
+import { ChampionFilterType, ChampionType, LANE_TYPE, ORDER_TYPE } from '../type/type';
+import Input from '../components/Input/Input';
+import PickPortrait from '../components/Portrait/PickPortrait';
 
 type CHAMPION_FILTER_ACTION =
   | { type: 'LANE', val: LANE_TYPE }
@@ -34,7 +36,7 @@ const filterReducer = (state: ChampionFilterType, action: CHAMPION_FILTER_ACTION
 
 const Champion = () => {
   const [selectedVersion, setSelectedVersion] = useState('13.1.1');
-  const { data, error, loading } = useQuery(ALL_CHAMPIONS,
+  const { data, error, loading } = useQuery<{ allChampion: ChampionType[]}>(ALL_CHAMPIONS,
     { variables: { version: selectedVersion } });
   const [championFilter, dispatch] = useReducer(filterReducer, { lane: 'ALL', order: 'NAME', query: '' });
 
@@ -60,11 +62,11 @@ const Champion = () => {
             정보</NavLink>
         </header>
         <main className={'flex flex-col gap-6 items-center'}>
-          <header className={'flex gap-6 max-w-[720px] justify-between'}>
+          <header className={'flex gap-6 max-w-[720px] pb-2 justify-between items-center border-b border-b-lolYellow'}>
             <LaneNavigator
               callback={onChangeLaneFilter}
             />
-            <section className={'flex gap-4'}>
+            <section className={'flex gap-4 items-center'}>
               <Selector<ORDER_TYPE>
                 categories={
                   [
@@ -76,8 +78,14 @@ const Champion = () => {
                 initId={0}
                 callback={(item) => onChangeSortFilter(item.customData)}
               />
+              <Input className={'flex-1'} showSearchIcon />
             </section>
           </header>
+          <div className={'flex flex-row flex-wrap gap-x-4 gap-y-6'}>
+            { data && data.allChampion && data.allChampion.filter(Boolean).slice(0, 5).map((champion) => (
+              <PickPortrait name={champion.id} src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`} />
+            ))}
+          </div>
         </main>
       </article>
     </div>

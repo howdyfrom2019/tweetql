@@ -54,7 +54,7 @@ const Selector =  <T extends unknown>(props: SelectorProps<T>) => {
   return (
     <>
       <button
-        className={`${SELECTOR_ITEM_STYLE} selector-button relative ${openList ? 'after:animate-open-close' : ''}`}
+        className={`${SELECTOR_ITEM_STYLE} selector-button h-8 relative ${openList ? 'after:animate-open-close' : ''} font-regular-12`}
         onClick={onHandlerToggleSelector}
       >
         {selectedCategory.content}
@@ -62,7 +62,7 @@ const Selector =  <T extends unknown>(props: SelectorProps<T>) => {
           {categories.map((category) => (
             <span
               key={`selector_${category.id}`}
-              className={`${SELECTOR_ITEM_STYLE} mt-[-1px] cursor-pointer`}
+              className={`${SELECTOR_ITEM_STYLE} mt-[-1px] cursor-pointer font-regular-12`}
               onClick={(e) => {
                 onChangeSelectedItem(e, category);
               }}

@@ -4,6 +4,13 @@
 @import "tailwindcss/utilities";
 
 @layer utilities {
+  .font-regular-12 {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.6666rem;
+    line-height: 15px;
+  }
   .font-regular-18 {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
@@ -35,10 +42,10 @@
     height: 0;
     transform-origin: center center;
     transform: translateY(-5px);
-    border-top: 10px solid #a0946e;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid transparent;
+    border-top: 8px solid #a0946e;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid transparent;
   }
 }
 *, *::after, *::before {
