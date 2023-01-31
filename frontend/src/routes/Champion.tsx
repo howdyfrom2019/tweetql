@@ -62,7 +62,7 @@ const Champion = () => {
             정보</NavLink>
         </header>
         <main className={'flex flex-col gap-6 items-center'}>
-          <header className={'flex gap-6 max-w-[720px] pb-2 justify-between items-center border-b border-b-lolYellow'}>
+          <header className={'flex gap-6 w-[720px] pb-2 justify-between items-center border-b border-b-lolYellow'}>
             <LaneNavigator
               callback={onChangeLaneFilter}
             />
@@ -81,8 +81,8 @@ const Champion = () => {
               <Input className={'flex-1'} showSearchIcon />
             </section>
           </header>
-          <div className={'flex flex-row flex-wrap gap-x-4 gap-y-6'}>
-            { data && data.allChampion && data.allChampion.filter(Boolean).slice(0, 5).map((champion) => (
+          <div className={'flex flex-row flex-wrap w-[720px] h-[560px] overflow-y-scroll overflow-x-hidden gap-x-2 gap-y-6 justify-between'}>
+            { data && data.allChampion && data.allChampion.filter(Boolean).map((champion) => (
               <PickPortrait name={champion.id} src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`} />
             ))}
           </div>
