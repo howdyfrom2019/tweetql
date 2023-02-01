@@ -10,6 +10,7 @@ import Input from '../components/Input/Input';
 import PickPortrait from '../components/Portrait/PickPortrait';
 import Scrollbars from 'react-custom-scrollbars-2';
 import DraftBG from '../assets/draft_outline.png';
+import Button from '../components/Button/Button';
 
 type CHAMPION_FILTER_ACTION =
   | { type: 'LANE', val: LANE_TYPE }
@@ -97,6 +98,7 @@ const Champion = () => {
             <img className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} />
             <img className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} />
           </div>
+          <Button>Draft 모드</Button>
         </main>
       </article>
     </div>
