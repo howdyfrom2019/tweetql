@@ -8,6 +8,8 @@ import LaneNavigator from '../components/LaneNavigator/LaneNavigator';
 import { ChampionFilterType, ChampionType, LANE_TYPE, ORDER_TYPE } from '../type/type';
 import Input from '../components/Input/Input';
 import PickPortrait from '../components/Portrait/PickPortrait';
+import Scrollbars from 'react-custom-scrollbars-2';
+import DraftBG from '../assets/draft_outline.png';
 
 type CHAMPION_FILTER_ACTION =
   | { type: 'LANE', val: LANE_TYPE }
@@ -81,10 +83,19 @@ const Champion = () => {
               <Input className={'flex-1'} showSearchIcon />
             </section>
           </header>
-          <div className={'flex flex-row flex-wrap w-[720px] h-[560px] overflow-y-scroll overflow-x-hidden gap-x-2 gap-y-6 justify-between'}>
-            { data && data.allChampion && data.allChampion.filter(Boolean).map((champion) => (
-              <PickPortrait name={champion.id} src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`} />
-            ))}
+          <div className={'relative'}>
+            <Scrollbars
+              style={{ width: 720, height: 560, zIndex: 10 }}
+              renderView={(props) => <div {...props} className={'flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} />}
+            >
+              {
+                data && data.allChampion && data.allChampion.filter(Boolean).map((champion, i) => (
+                  <PickPortrait name={champion.id} src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`} key={i} />
+                ))
+              }
+            </Scrollbars>
+            <img className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} />
+            <img className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} />
           </div>
         </main>
       </article>
