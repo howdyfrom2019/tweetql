@@ -91,13 +91,13 @@ export const SummonerType = gql`
   }
   
   type ChampionSpellType {
-      cooldown: [Int!]!
+      cooldown: [Float!]!
       cooldownBurn: String!
       cost: [Int!]!
       costBurn: String!
       costType: String!
       description: String!
-      effect: [[Int!]]!
+      effect: [[Float!]]!
       effectBurn: [String]!
       leveltip: LevelTipType!
       id: String!

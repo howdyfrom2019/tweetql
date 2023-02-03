@@ -52,6 +52,43 @@ export interface ChampionStat {
   attackspeed: number;
 }
 
+interface ChampionPassiveType {
+  description: string;
+  image: ChampionImgInfo;
+}
+
+interface ChampionSkinType {
+  id: string;
+  num: number;
+  name: string;
+  chromas: boolean;
+}
+
+interface LevelTipType {
+  effect: string[];
+  label: string[];
+}
+
+interface ChampionSpellType {
+  cooldown: number[];
+  cooldownBurn: string;
+  cost: number[];
+  costBurn: string;
+  costType: string;
+  description: string;
+  effect: number | null[][];
+  effectBurn: string | null[];
+  leveltip: LevelTipType;
+  id: string;
+  image: ChampionImgInfo;
+  maxammo: string;
+  maxrank: number;
+  range: number[];
+  rangeBurn: string;
+  resource: string;
+  tooltip: string;
+}
+
 export interface ChampionType {
   version: string;
   id: string;
@@ -63,4 +100,24 @@ export interface ChampionType {
   tags: string[];
   partype: string;
   stats: ChampionStat;
+}
+
+export interface ChampionSpecificType {
+  allytips?: string[];
+  blurb: string;
+  enemyTips?: string[];
+  id: string;
+  image: ChampionImgInfo;
+  info: ChampionSpecification;
+  key: string;
+  lore: string;
+  name: string;
+  partype: string;
+  passive: ChampionPassiveType;
+  recommend?: string[];
+  skins: ChampionSkinType[];
+  spells: ChampionSpellType[];
+  stats: ChampionStat;
+  tags: string[];
+  title: string;
 }
