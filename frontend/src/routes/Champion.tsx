@@ -1,5 +1,5 @@
 import React, { Dispatch, useCallback, useMemo, useReducer, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import ChampionSideBar from '../components/SideBar/ChampionSideBar';
 import { useQuery } from '@apollo/client';
 import { ALL_CHAMPIONS } from '../type/api';
@@ -42,7 +42,7 @@ const Champion = () => {
   const { data, error, loading } = useQuery<{ allChampion: ChampionType[]}>(ALL_CHAMPIONS,
     { variables: { version: selectedVersion } });
   const [championFilter, dispatch] = useReducer(filterReducer, { lane: 'ALL', order: 'NAME', query: '' });
-
+  const navigator = useNavigate();
   const onChangeLaneFilter = useCallback((val: LANE_TYPE) => {
     dispatch({ type: 'LANE', val: val });
   }, []);
@@ -91,7 +91,12 @@ const Champion = () => {
             >
               {
                 data && data.allChampion && data.allChampion.filter(Boolean).map((champion, i) => (
-                  <PickPortrait name={champion.id} src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`} key={i} />
+                  <PickPortrait
+                    name={champion.id}
+                    src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`}
+                    key={i}
+                    callback={(id) => navigator(`/champion/${id}`)}
+                  />
                 ))
               }
             </Scrollbars>
