@@ -73,6 +73,43 @@ export const SummonerType = gql`
       attackspeed:Float!
   }
   
+  type ChampionPassiveType {
+      description: String!
+      image: ChampionImgInfo!
+  }
+  
+  type ChampionSkinType {
+      id: String!
+      num: Int!
+      name: String!
+      chromas: Boolean!
+  }
+  
+  type LevelTipType {
+      effect: [String!]!
+      label: [String!]!
+  }
+  
+  type ChampionSpellType {
+      cooldown: [Int!]!
+      cooldownBurn: String!
+      cost: [Int!]!
+      costBurn: String!
+      costType: String!
+      description: String!
+      effect: [[Int!]]!
+      effectBurn: [String]!
+      leveltip: LevelTipType!
+      id: String!
+      image: ChampionImgInfo!
+      maxammo: String!
+      maxrank: Int!
+      range: [Int!]!
+      rangeBurn: String!
+      resource: String!
+      tooltip: String!
+  }
+  
   type ChampionInfo {
       version: String!
       id: ID!
@@ -86,10 +123,31 @@ export const SummonerType = gql`
       stats: ChampionStat!
   }
   
+  type ChampionSpecificType {
+      allytips: [String!]
+      blurb: String!
+      enemyTips: [String!]
+      id: String!
+      image: ChampionImgInfo!
+      info: ChampionSpecification!
+      key: String!
+      lore: String!
+      name: String!
+      partype: String!
+      passive: ChampionPassiveType!
+      recommend: [String]
+      skins: [ChampionSkinType!]!
+      spells: [ChampionSpellType!]!
+      stats: ChampionStat!
+      tags: [String!]!
+      title: String!
+  }
+  
   extend type Query {
       summoner(name: String!): SummonerInfo!
       league(encryptedSummonerId: String!): LeagueInfo!
       latestVersion: [String!]!
       allChampion(version: String!): [ChampionInfo]!
+      oneChampionInfo(version: String!, name: String!): ChampionSpecificType!
   }
 `;
