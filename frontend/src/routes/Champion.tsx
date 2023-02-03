@@ -95,7 +95,7 @@ const Champion = () => {
                     name={champion.id}
                     src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`}
                     key={i}
-                    callback={(id) => navigator(`/champion/${id}`)}
+                    callback={(id) => navigator(`/champion/${id}/version/${selectedVersion}`)}
                   />
                 ))
               }

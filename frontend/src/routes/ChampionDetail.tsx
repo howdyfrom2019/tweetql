@@ -5,12 +5,9 @@ import { ChampionSpecificType } from '../type/type';
 import { ONE_CHAMPION } from '../type/api';
 
 const ChampionDetail = () => {
-  const { name } = useParams();
+  const { name, version } = useParams();
   const { data, error, loading } = useQuery<ChampionSpecificType>(ONE_CHAMPION, {
-    variables: {
-      version: '13.1.1',
-      name
-    }
+    variables: { version, name }
   });
   console.log(data, error, loading)
   return (

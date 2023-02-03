@@ -10,8 +10,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<Home />} />
-        <Route path={"/champion"} element={<Champion />} />
-        <Route path={"/champion/:name"} element={<ChampionDetail />} />
+        <Route path={"/champions"} element={<Champion />} />
+        <Route path={"/champion/:name/version/:version"} element={<ChampionDetail />} />
         <Route path={"/user"} element={<User />}>
           <Route path={"/user/:id"} element={<User />} />
         </Route>
