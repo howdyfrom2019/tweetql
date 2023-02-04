@@ -4,6 +4,7 @@ import Home from './routes/Home';
 import User from './routes/User';
 import Champion from './routes/Champion';
 import ChampionDetail from './routes/ChampionDetail';
+import Draft from './routes/Draft';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path={"/user"} element={<User />}>
           <Route path={"/user/:id"} element={<User />} />
         </Route>
+        <Route path={"/draft"} element={<Draft />} />
       </Routes>
     </BrowserRouter>
   )

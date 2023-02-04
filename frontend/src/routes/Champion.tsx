@@ -52,6 +52,11 @@ const Champion = () => {
     dispatch({ type: 'ORDER', val: val });
   }, []);
 
+  const navigateToDraft = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigator('/draft');
+  }, []);
+
   return (
     <div className={`flex`}>
       <ChampionSideBar selectedVersionCallback={(version) => {
@@ -103,7 +108,7 @@ const Champion = () => {
             <img className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} />
             <img className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} />
           </div>
-          <Button>Draft 모드</Button>
+          <Button onClick={navigateToDraft}>Draft 모드</Button>
         </main>
       </article>
     </div>
