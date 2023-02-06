@@ -20,8 +20,10 @@ const ChampionSideBar: React.FC<ChampionSideBarType> = ({ selectedVersionCallbac
   }, []);
 
   useEffect(() => {
-    selectedVersionCallback && selectedVersionCallback(latestPatches[selectedVersion]);
-  }, [selectedVersion, selectedVersionCallback]);
+    if (data && data.latestVersion) {
+      selectedVersionCallback && selectedVersionCallback(latestPatches[selectedVersion]);
+    }
+  }, [data, selectedVersion, selectedVersionCallback]);
 
   return (
     <aside className={`sticky top-0 left-0 w-72 h-screen flex flex-col justify-around items-center shadow-section bg-section z-30`}>

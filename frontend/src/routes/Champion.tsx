@@ -95,7 +95,7 @@ const Champion = () => {
               renderView={(props) => <div {...props} className={'flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} />}
             >
               {
-                data && data.allChampion && data.allChampion.filter(Boolean).map((champion, i) => (
+                !loading && data && data.allChampion && data.allChampion.filter(Boolean).map((champion, i) => (
                   <PickPortrait
                     name={champion.id}
                     src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`}

@@ -1,6 +1,14 @@
 import React from 'react';
+import { ChampionType } from '../type/type';
+import withLatestVersion from '../utils/withSelectedVersion';
 
-const Draft = () => {
+interface DraftProps {
+  allChampion: ChampionType[];
+  selectedVersion: string;
+}
+
+const Draft = ({...props}) => {
+  console.log(props);
   return (
     <div className={'flex flex-col relative'}>
       <main className={'flex h-[1000px]'}>hi</main>
@@ -12,4 +20,4 @@ const Draft = () => {
   )
 }
 
-export default Draft;
+export default withLatestVersion(Draft);
