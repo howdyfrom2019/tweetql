@@ -2,11 +2,6 @@ import React from 'react';
 import { ChampionType } from '../type/type';
 import withLatestVersion from '../utils/withSelectedVersion';
 
-interface DraftProps {
-  allChampion: ChampionType[];
-  selectedVersion: string;
-}
-
 const Draft = ({...props}) => {
   console.log(props);
   return (
