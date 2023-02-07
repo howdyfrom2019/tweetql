@@ -55,12 +55,26 @@ const config: Configuration = {
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
-        test: /\.svg?$/,
+        test: /\.svg$/i,
+        type: 'asset',
+        resourceQuery: /url/, // *.svg?url
+      },
+      {
+        test: /\.svg?$/i,
+        issuer: /\.[jt]sx?$/,
+        resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
         use: ['@svgr/webpack', 'url-loader'],
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|webp)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|webp)$/i,
         use: ['file-loader']
+      },
+      {
+        test: /\.(mp3|ogg)$/i,
+        loader: 'file-loader',
+        options: {
+          name: 'assets/[name].[ext]?[hash]'
+        }
       }
     ],
   },
