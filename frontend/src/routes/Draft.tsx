@@ -16,6 +16,7 @@ const Draft = ({...props}) => {
           <PlayerPick isPickPhase={false} lane={'MID'} isBlue />
           <PlayerPick isPickPhase={false} lane={'BOT'} isBlue />
           <PlayerPick isPickPhase={false} lane={'SUP'} isBlue />
+
         </div>
       </article>
     </div>
