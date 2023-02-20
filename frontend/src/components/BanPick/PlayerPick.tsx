@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { LANE_TYPE } from '../../type/type';
 import Top from '../../assets/top_blue.svg';
+import Top_Red from '../../assets/top.svg';
 import Jungle from '../../assets/jungle_blue.svg';
+import Jungle_Red from '../../assets/jungle.svg';
 import Mid from '../../assets/mid_blue.svg';
+import Mid_Red from '../../assets/mid.svg';
 import Bot from '../../assets/bottom_blue.svg';
+import Bot_Red from '../../assets/bottom.svg';
 import Support from '../../assets/support_blue.svg';
+import Support_Red from '../../assets/support.svg';
 
 interface PlayerPickProps {
   isPickPhase: boolean;
@@ -20,19 +25,19 @@ const PlayerPick = ({ isPickPhase, championId, lane, playerName, isBlue } : Play
   const initIcon = useCallback(async() => {
     switch (lane) {
       case 'TOP':
-        setPath(Top);
+        setPath(isBlue ? Top : Top_Red);
         break;
       case 'JUG':
-        setPath(Jungle);
+        setPath(isBlue ? Jungle : Jungle_Red);
         break;
       case 'MID':
-        setPath(Mid);
+        setPath(isBlue ? Mid : Mid_Red);
         break;
       case 'BOT':
-        setPath(Bot);
+        setPath(isBlue ? Bot : Bot_Red);
         break;
       case 'SUP':
-        setPath(Support);
+        setPath(isBlue ? Support : Support_Red);
         break;
       default:
         throw new Error('invalid lane props');

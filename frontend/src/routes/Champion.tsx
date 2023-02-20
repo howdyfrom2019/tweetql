@@ -11,6 +11,7 @@ import PickPortrait from '../components/Portrait/PickPortrait';
 import Scrollbars from 'react-custom-scrollbars-2';
 import DraftBG from '../assets/draft_outline.png';
 import Button from '../components/Button/Button';
+import ChampionPicks from '../components/BanPick/ChampionPicks';
 
 type CHAMPION_FILTER_ACTION =
   | { type: 'LANE', val: LANE_TYPE }
@@ -39,8 +40,6 @@ const filterReducer = (state: ChampionFilterType, action: CHAMPION_FILTER_ACTION
 
 const Champion = () => {
   const [selectedVersion, setSelectedVersion] = useState('13.1.1');
-  const { data, error, loading } = useQuery<{ allChampion: ChampionType[]}>(ALL_CHAMPIONS,
-    { variables: { version: selectedVersion } });
   const [championFilter, dispatch] = useReducer(filterReducer, { lane: 'ALL', order: 'NAME', query: '' });
   const navigator = useNavigate();
   const onChangeLaneFilter = useCallback((val: LANE_TYPE) => {
@@ -89,25 +88,7 @@ const Champion = () => {
               <Input className={'flex-1'} showSearchIcon />
             </section>
           </header>
-          <div className={'relative'}>
-            <Scrollbars
-              style={{ width: 720, height: 560, zIndex: 10 }}
-              renderView={(props) => <div {...props} className={'flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} />}
-            >
-              {
-                !loading && data && data.allChampion && data.allChampion.filter(Boolean).map((champion, i) => (
-                  <PickPortrait
-                    name={champion.id}
-                    src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`}
-                    key={i}
-                    callback={(id) => navigator(`/champion/${id}/version/${selectedVersion}`)}
-                  />
-                ))
-              }
-            </Scrollbars>
-            <img className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} />
-            <img className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} />
-          </div>
+          <ChampionPicks />
           <Button onClick={navigateToDraft}>Draft 모드</Button>
         </main>
       </article>
