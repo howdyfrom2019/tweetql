@@ -1,3 +1,5 @@
+import { ApolloError } from '@apollo/client';
+
 export interface LtsVersionType {
   latestVersion: string[];
 }
@@ -120,4 +122,10 @@ export interface ChampionSpecificType {
   stats: ChampionStat;
   tags: string[];
   title: string;
+}
+
+export interface DataState<T> {
+  loading: boolean;
+  error?: ApolloError;
+  data?: T
 }

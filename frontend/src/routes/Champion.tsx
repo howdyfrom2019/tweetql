@@ -52,6 +52,11 @@ const Champion = () => {
     dispatch({ type: 'ORDER', val: val });
   }, []);
 
+  const navigateToDraft = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    navigator('/draft');
+  }, []);
+
   return (
     <div className={`flex`}>
       <ChampionSideBar selectedVersionCallback={(version) => {
@@ -90,7 +95,7 @@ const Champion = () => {
               renderView={(props) => <div {...props} className={'flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} />}
             >
               {
-                data && data.allChampion && data.allChampion.filter(Boolean).map((champion, i) => (
+                !loading && data && data.allChampion && data.allChampion.filter(Boolean).map((champion, i) => (
                   <PickPortrait
                     name={champion.id}
                     src={`https://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${champion.image.full}`}
@@ -103,7 +108,7 @@ const Champion = () => {
             <img className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} />
             <img className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} />
           </div>
-          <Button>Draft 모드</Button>
+          <Button onClick={navigateToDraft}>Draft 모드</Button>
         </main>
       </article>
     </div>
