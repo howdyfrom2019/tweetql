@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { ChampionType } from '../type/type';
 import withLatestVersion from '../utils/withSelectedVersion';
 import PlayerPick from '../components/BanPick/PlayerPick';
 import ChampionPicks from '../components/BanPick/ChampionPicks';
+import ChampionHandler from '../components/BanPick/ChampionHandler';
 
 const Draft = ({...props}) => {
-  console.log(props);
+  const [selectedChampion, setSelectedChampion] = useState('');
+
+  const onChangePortrait = useCallback((id: string) => {
+    setSelectedChampion(id);
+  }, []);
+
   return (
     <div className={'flex flex-col relative'}>
-      <main className={'flex justify-center items-center'}>
-        <ChampionPicks />
+      <main className={'flex flex-col justify-center items-center'}>
+        <ChampionHandler />
+        <ChampionPicks portraitHandler={onChangePortrait} />
       </main>
-      <article className={'flex flex-col sticky left-0 bottom-0 w-screen min-w-[1200px]'}>
+      <article className={'flex flex-col sticky left-0 bottom-0 w-screen min-w-[1200px] z-50'}>
         <section className={'flex justify-between'}>
           <div className={'w-[300px] h-[64px] bg-blue-600'} />
           <div className={'w-[300px] h-[64px] bg-[#E1E3E0]'} />
