@@ -27,8 +27,7 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
             <PickPortrait
               name={champion.id}
               src={`https://ddragon.leagueoflegends.com/cdn/${data || '13.3.1'}/img/champion/${champion.image.full}`}
-              key={i}
-              // callback={(id) => navigator(`/champion/${id}/version/${result?.data}`)}
+              key={champion.id}
               callback={portraitHandler}
             />
           ))

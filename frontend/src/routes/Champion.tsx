@@ -23,6 +23,10 @@ const Champion = () => {
     navigator('/draft');
   }, []);
 
+  const moveToDetailChampionPage = useCallback((id: string) => {
+    navigator(`/champion/${id}/version/${selectedVersion}`)
+  }, []);
+
   return (
     <div className={`flex`}>
       <ChampionSideBar selectedVersionCallback={(version) => {
@@ -38,7 +42,7 @@ const Champion = () => {
         </header>
         <main className={'flex flex-col gap-6 items-center'}>
           <ChampionHandler />
-          <ChampionPicks />
+          <ChampionPicks portraitHandler={moveToDetailChampionPage} />
           <Button onClick={navigateToDraft}>Draft 모드</Button>
         </main>
       </article>
