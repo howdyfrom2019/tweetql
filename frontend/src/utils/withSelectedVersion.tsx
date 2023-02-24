@@ -3,7 +3,7 @@ import { DataState, LtsVersionType } from '../type/type';
 import { useQuery } from '@apollo/client';
 import { LOL_PATCH_VERSIONS } from '../type/api';
 
-interface WithSelectedVersionProps {
+export interface WithSelectedVersionProps {
   result: DataState<string> | null;
 }
 
@@ -17,6 +17,7 @@ const withLatestVersion = <P extends WithSelectedVersionProps>(Component: React.
     useEffect(() => {
       setResult({ data: (data && data.latestVersion) ? data.latestVersion[0] : '', error, loading });
     }, [data, error, loading]);
+
     return <Component {...result} {...props as P} />;
   }
 }
