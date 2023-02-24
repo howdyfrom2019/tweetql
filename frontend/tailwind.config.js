@@ -30,16 +30,22 @@ module.exports = {
       },
       animation: {
         'open-close': 'openClose ease-out 0.14s both',
+        'sound': 'soundScale 1.5s infinite ease',
       },
       keyframes: {
         openClose: {
           from: { transform: 'translateY(-5px) rotate(0)' },
           to: { transform: 'translateY(-13px) rotate(180deg)' }
         },
+        soundScale: {
+          '0% 100%': { transform: 'scaleY(2)' },
+          '50%': { transform: 'scaleY(15)' },
+        },
       }
     },
   },
   variants: {
+    animationDelay: ['responsive', 'hover'],
     extend: {
       fontFamily: {
         'roboto': ['Roboto'],
@@ -49,5 +55,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
 }

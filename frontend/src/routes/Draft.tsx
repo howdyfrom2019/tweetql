@@ -4,6 +4,7 @@ import withLatestVersion from '../utils/withSelectedVersion';
 import PlayerPick from '../components/BanPick/PlayerPick';
 import ChampionPicks from '../components/BanPick/ChampionPicks';
 import ChampionHandler from '../components/BanPick/ChampionHandler';
+import MusicPlayer from '../components/MusicPlayer/MusicPlayer';
 
 const Draft = ({...props}) => {
   const [selectedChampion, setSelectedChampion] = useState('');
@@ -14,6 +15,9 @@ const Draft = ({...props}) => {
 
   return (
     <div className={'flex flex-col relative'}>
+      <header className={'flex w-full'}>
+        <MusicPlayer playlist={[{ src: '', fileName: 'test' }]} />
+      </header>
       <main className={'flex flex-col justify-center items-center'}>
         <ChampionHandler />
         <ChampionPicks portraitHandler={onChangePortrait} />
