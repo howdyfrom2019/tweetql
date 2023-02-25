@@ -1,6 +1,6 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-interface PlayListProps {
+export interface PlayListProps {
   src: string;
   fileName: string;
 }
@@ -17,6 +17,7 @@ const MusicPlayer = ({ playlist, callback }: Props) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [cursor, setCursor] = useState(0);
   const [isPlay, setIsPlay] = useState(false);
+  const audioSource = useMemo(() => playlist.length === 0 ? '' : playlist[cursor].src,[playlist, cursor]);
 
   const changeMusic = useCallback((type: MusicHandlerType) => {
     switch(type) {
@@ -41,7 +42,7 @@ const MusicPlayer = ({ playlist, callback }: Props) => {
     audioRef.current.muted = false;
 
     if (audioRef.current.paused) {
-      audioRef.current.play();
+      audioRef.current.play().then((res) => {console.log(res)}).catch(e => {console.log(e)});
     } else {
       audioRef.current.pause();
     }
@@ -50,7 +51,7 @@ const MusicPlayer = ({ playlist, callback }: Props) => {
 
   return (
     <>
-      <figure className={'rounded-full border border-lolYellow w-36 px-4 py-2 h-12 flex justify-between items-center'}>
+      <figure className={'rounded-full border border-lolYellow w-36 px-4 py-2 flex justify-between items-center'}>
         <div className={'flex gap-1 h-full items-center cursor-pointer transition-opacity'} onClick={toggleMusic}>
           <span className={`${BASIC_MUSIC_BAR_STYLE} ${isPlay && 'animate-sound'} animation-delay-600`} />
           <span className={`${BASIC_MUSIC_BAR_STYLE} ${isPlay && 'animate-sound'} animation-delay-1100`} />
@@ -59,10 +60,10 @@ const MusicPlayer = ({ playlist, callback }: Props) => {
           <span className={`${BASIC_MUSIC_BAR_STYLE} ${isPlay && 'animate-sound'} animation-delay-1500`} />
           <span className={`${BASIC_MUSIC_BAR_STYLE} ${isPlay && 'animate-sound'} animation-delay-600`} />
         </div>
-        <figcaption className={'text-lolYellow'}>{playlist[cursor].fileName}</figcaption>
+        <figcaption className={'text-lolYellow truncate whitespace-nowrap w-20'}>{playlist[cursor]?.fileName || '____'}</figcaption>
       </figure>
-      <audio muted autoPlay playsInline loop ref={audioRef}>
-        <source src={playlist[cursor].src} type={"audio/mp3"} />
+      <audio muted playsInline loop ref={audioRef}>
+        <source src={audioSource} type={"audio/mp3"} />
       </audio>
     </>
   )

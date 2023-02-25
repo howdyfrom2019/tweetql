@@ -1,17 +1,22 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { ChampionType } from '../type/type';
 import withLatestVersion from '../utils/withSelectedVersion';
 import PlayerPick from '../components/BanPick/PlayerPick';
 import ChampionPicks from '../components/BanPick/ChampionPicks';
 import ChampionHandler from '../components/BanPick/ChampionHandler';
-import MusicPlayer from '../components/MusicPlayer/MusicPlayer';
+import MusicPlayer, { PlayListProps } from '../components/MusicPlayer/MusicPlayer';
 import Selector from '../components/Selector/Selector';
+import { useMp3Loader } from '../hooks/useMp3Loader';
 
 type DraftPhase = 'BAN' | 'PICK';
+
+const musicTitles = ['Bitten Bullet'];
 
 const Draft = ({...props}) => {
   const [selectedChampion, setSelectedChampion] = useState('');
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
+  const [mp3Files] = useMp3Loader();
+  console.log(mp3Files);
+
   const phaseUIText = useMemo(() => {
     switch (currentPhase) {
       case 'BAN':
@@ -22,6 +27,7 @@ const Draft = ({...props}) => {
         return '의도치 않은 동작';
     }
   }, [currentPhase]);
+  const playlists = useMemo<PlayListProps[]>(() => mp3Files.map((src, i) => ({ src, fileName: musicTitles[i] })),[mp3Files]);
 
   const onChangePortrait = useCallback((id: string) => {
     setSelectedChampion(id);
@@ -33,13 +39,13 @@ const Draft = ({...props}) => {
         <Selector<string>
           categories={[{ id: 0, content: '2022 WORLDS' }]}
           initId={0}
-          customSelectorItemStyle={'rounded-full bg-section px-4 py-2 w-40 text-white'}
+          customSelectorItemStyle={'rounded-full bg-section px-4 py-2 w-40 text-white text-bold'}
         />
         <div className={'flex flex-col gap-4 items-center'}>
           <span className={'font-bold-32 text-white'}>챔피언을 {phaseUIText}할 차례입니다!</span>
           <span className={'font-medium-32 text-white'}>59</span>
         </div>
-        <MusicPlayer playlist={[{ src: '', fileName: 'test' }]} />
+        <MusicPlayer playlist={playlists} />
       </header>
       <main className={'flex flex-col justify-center items-center'}>
         <ChampionHandler />
