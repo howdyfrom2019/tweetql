@@ -50,7 +50,7 @@ const MusicPlayer = ({ playlist, callback }: Props) => {
 
   return (
     <>
-      <figure className={'rounded-full border border-lolYellow w-36 px-4 py-2 flex justify-between items-center'}>
+      <figure className={'rounded-full border border-lolYellow w-36 px-4 py-2 h-12 flex justify-between items-center'}>
         <div className={'flex gap-1 h-full items-center cursor-pointer transition-opacity'} onClick={toggleMusic}>
           <span className={`${BASIC_MUSIC_BAR_STYLE} ${isPlay && 'animate-sound'} animation-delay-600`} />
           <span className={`${BASIC_MUSIC_BAR_STYLE} ${isPlay && 'animate-sound'} animation-delay-1100`} />

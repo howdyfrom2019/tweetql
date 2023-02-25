@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface CategoryProps<T> {
   id: number;
@@ -10,15 +10,17 @@ interface SelectorProps<T> {
   categories: CategoryProps<T>[];
   initId?: number;
   placeholder?: string;
+  customSelectorItemStyle?: string;
   callback?: (item: CategoryProps<T>) => void;
 }
 
-const SELECTOR_ITEM_STYLE = 'px-4 py-2 w-40 text-lolYellow border border-lolYellow bg-section';
+const BASIC_STYlE = 'px-4 py-2 w-40 text-lolYellow border border-lolYellow bg-section';
 
 const Selector =  <T extends unknown>(props: SelectorProps<T>) => {
-  const { categories, initId, placeholder, callback } = props;
+  const { categories, initId, placeholder, customSelectorItemStyle, callback } = props;
   const [selectedCategory, setSelectedCategory] = useState<CategoryProps<T>>({ id: -1, content: '' });
   const [openList, setOpenList] = useState(false);
+  const SELECTOR_ITEM_STYLE = useMemo(() => customSelectorItemStyle ? customSelectorItemStyle : BASIC_STYlE,[customSelectorItemStyle])
 
   const init = useCallback((id: number) => {
     if (placeholder) {
@@ -46,10 +48,6 @@ const Selector =  <T extends unknown>(props: SelectorProps<T>) => {
   useEffect(() => {
     init(initId || 0);
   }, [initId]);
-
-  // useEffect(() => {
-  //   callback && callback(selectedCategory);
-  // }, [selectedCategory]);
 
   return (
     <>

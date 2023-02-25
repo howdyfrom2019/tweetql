@@ -27,6 +27,22 @@
     line-height: 23px;
   }
 
+  .font-medium-32 {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2rem;
+    line-height: 42px;
+  }
+
+  .font-bold-32 {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 42px;
+  }
+
   .selector-button {
     position: relative;
     text-align: left;
