@@ -56,7 +56,7 @@ const Selector =  <T extends unknown>(props: SelectorProps<T>) => {
         onClick={onHandlerToggleSelector}
       >
         {selectedCategory.content}
-        <div className={`${openList ? 'flex' : 'hidden'} flex-col absolute top-0 left-[-1px]`}>
+        <div className={`${openList ? 'flex' : 'hidden'} flex-col absolute top-0 left-[-1px] z-[999]`}>
           {categories.map((category) => (
             <span
               key={`selector_${category.id}`}

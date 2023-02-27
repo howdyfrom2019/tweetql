@@ -6,6 +6,7 @@ import ChampionHandler from '../components/BanPick/ChampionHandler';
 import MusicPlayer, { PlayListProps } from '../components/MusicPlayer/MusicPlayer';
 import Selector from '../components/Selector/Selector';
 import { useMp3Loader } from '../hooks/useMp3Loader';
+import PlayerBan from '../components/BanPick/PlayerBan';
 
 type DraftPhase = 'BAN' | 'PICK';
 
@@ -53,8 +54,16 @@ const Draft = ({...props}) => {
       </main>
       <article className={'flex flex-col sticky left-0 bottom-0 w-screen min-w-[1200px] z-50'}>
         <section className={'flex justify-between'}>
-          <div className={'w-[300px] h-[64px] bg-blue-600'} />
-          <div className={'w-[300px] h-[64px] bg-[#E1E3E0]'} />
+          <div className={'flex bg-blue-600 gap-[-1px]'}>
+            <PlayerBan disabled={false} />
+            <PlayerBan disabled={true} />
+            <PlayerBan disabled={true} />
+            <PlayerBan disabled={true} />
+            <PlayerBan disabled={true} />
+          </div>
+          <div className={'w-[300px] h-[64px] bg-[#E1E3E0]'} >
+
+          </div>
         </section>
         <section className={'flex justify-between'}>
           <div className={'flex flex-1 bg-[#111110] border-t-2 border-lolYellow h-[180px]'}>

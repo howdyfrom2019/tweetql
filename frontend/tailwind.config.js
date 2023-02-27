@@ -11,6 +11,12 @@ module.exports = {
       letterSpacing: {
         'label': '0.3rem',
       },
+      backgroundColor: {
+        'blue-ban': 'linear-gradient(180deg, rgba(255, 227, 224, 0) 0%, #E1E3E0 100%)',
+      },
+      backgroundSize: {
+        '200%': '200% 200%',
+      },
       colors: {
         yellow: '#fcc563',
         black: '#333333',
@@ -31,6 +37,7 @@ module.exports = {
       animation: {
         'open-close': 'openClose ease-out 0.14s both',
         'sound': 'soundScale 1.5s infinite ease',
+        'ban-select': 'banSelect 2s infinite ease',
       },
       keyframes: {
         openClose: {
@@ -41,6 +48,11 @@ module.exports = {
           '0% 100%': { transform: 'scaleY(2)' },
           '50%': { transform: 'scaleY(15)' },
         },
+        banSelect: {
+          '0%': { 'background-position': '0% 0%' },
+          '50%': { 'background-position': '91% 100%' },
+          '100%': { 'background-position': '0% 0%' },
+        }
       }
     },
   },
