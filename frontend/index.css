@@ -63,6 +63,20 @@
     border-right: 6px solid transparent;
     border-bottom: 6px solid transparent;
   }
+
+  .blue-team-diagonal {
+    width: calc(48px * 1.41);
+    border-bottom: 2px solid rgba(199, 199, 199, 0.4);
+    transform: rotate(45deg);
+    transform-origin: left;
+  }
+
+  .red-team-diagonal {
+    width: calc(64px * 1.41);
+    border-bottom: 2px solid rgba(31, 37, 153, 0.4);
+    transform: rotate(45deg);
+    transform-origin: left;
+  }
 }
 *, *::after, *::before {
   box-sizing: border-box;

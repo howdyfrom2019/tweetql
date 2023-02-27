@@ -55,7 +55,7 @@ const Draft = ({...props}) => {
       <article className={'flex flex-col sticky left-0 bottom-0 w-screen min-w-[1200px] z-50'}>
         <section className={'flex justify-between'}>
           <div className={'flex bg-blue-600 gap-[-1px]'}>
-            <PlayerBan disabled={false} />
+            <PlayerBan src={"https://ddragon.leagueoflegends.com/cdn/13.4.1/img/champion/Leblanc.png"} disabled={false} />
             <PlayerBan disabled={true} />
             <PlayerBan disabled={true} />
             <PlayerBan disabled={true} />

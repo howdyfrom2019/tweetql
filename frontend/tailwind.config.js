@@ -11,9 +11,6 @@ module.exports = {
       letterSpacing: {
         'label': '0.3rem',
       },
-      backgroundColor: {
-        'blue-ban': 'linear-gradient(180deg, rgba(255, 227, 224, 0) 0%, #E1E3E0 100%)',
-      },
       backgroundSize: {
         '200%': '200% 200%',
       },
@@ -29,6 +26,7 @@ module.exports = {
         highlight: '#414073',
         lolYellow: '#a0946e',
         lolGreen: '#495a5a',
+        banBlue: 'rgba(255, 227, 224, 0.6)'
       },
       boxShadow: {
         'search-bar': '-1px -1px 0 1px #383762',
