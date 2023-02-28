@@ -15,8 +15,8 @@ export interface ChampionFilterType {
 }
 
 export interface ChampionImgInfo {
-  full: number;
-  sprite: number;
+  full: string;
+  sprite: string;
   group: number;
   x: number;
   y: number;

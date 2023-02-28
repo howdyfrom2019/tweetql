@@ -8,7 +8,7 @@ import PickPortrait from '../Portrait/PickPortrait';
 import DraftBG from '../../assets/draft_outline.png';
 
 interface Props extends WithSelectedVersionProps {
-  portraitHandler?: (id: string) => void;
+  portraitHandler?: (champion: ChampionType) => void;
 }
 
 const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
@@ -25,7 +25,7 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
         {
           !championLoading && championData && championData.allChampion && championData.allChampion.filter(Boolean).map((champion, i) => (
             <PickPortrait
-              name={champion.id}
+              champion={champion}
               src={`https://ddragon.leagueoflegends.com/cdn/${data || '13.3.1'}/img/champion/${champion.image.full}`}
               key={champion.id}
               callback={portraitHandler}

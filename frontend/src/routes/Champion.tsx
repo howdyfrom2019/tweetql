@@ -23,7 +23,8 @@ const Champion = () => {
     navigator('/draft');
   }, []);
 
-  const moveToDetailChampionPage = useCallback((id: string) => {
+  const moveToDetailChampionPage = useCallback((champion: ChampionType) => {
+    const { id } = champion;
     navigator(`/champion/${id}/version/${selectedVersion}`)
   }, []);
 

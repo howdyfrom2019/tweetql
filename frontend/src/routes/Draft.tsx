@@ -7,16 +7,17 @@ import MusicPlayer, { PlayListProps } from '../components/MusicPlayer/MusicPlaye
 import Selector from '../components/Selector/Selector';
 import { useMp3Loader } from '../hooks/useMp3Loader';
 import PlayerBan from '../components/BanPick/PlayerBan';
+import { ChampionType } from '../type/type';
 
 type DraftPhase = 'BAN' | 'PICK';
 
 const musicTitles = ['Bitten Bullet'];
 
 const Draft = ({...props}) => {
-  const [selectedChampion, setSelectedChampion] = useState('');
+  const { data: ltsPatch, error: patchError, loading: patchLoading } = props;
+  const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
   const [mp3Files] = useMp3Loader();
-  console.log(mp3Files);
 
   const phaseUIText = useMemo(() => {
     switch (currentPhase) {
@@ -30,8 +31,8 @@ const Draft = ({...props}) => {
   }, [currentPhase]);
   const playlists = useMemo<PlayListProps[]>(() => mp3Files.map((src, i) => ({ src, fileName: musicTitles[i] })),[mp3Files]);
 
-  const onChangePortrait = useCallback((id: string) => {
-    setSelectedChampion(id);
+  const onChangePortrait = useCallback((champion: ChampionType) => {
+    setSelectedChampion(champion);
   }, []);
 
   return (
@@ -55,11 +56,11 @@ const Draft = ({...props}) => {
       <article className={'flex flex-col sticky left-0 bottom-0 w-screen min-w-[1200px] z-50'}>
         <section className={'flex justify-between'}>
           <div className={'flex bg-blue-600 gap-[-1px]'}>
-            <PlayerBan src={"https://ddragon.leagueoflegends.com/cdn/13.4.1/img/champion/Leblanc.png"} disabled={false} />
-            <PlayerBan disabled={true} />
-            <PlayerBan disabled={true} />
-            <PlayerBan disabled={true} />
-            <PlayerBan disabled={true} />
+            <PlayerBan patch={ltsPatch} image={selectedChampion?.image.full} disabled={false} />
+            <PlayerBan patch={ltsPatch} disabled={true} />
+            <PlayerBan patch={ltsPatch} disabled={true} />
+            <PlayerBan patch={ltsPatch} disabled={true} />
+            <PlayerBan patch={ltsPatch} disabled={true} />
           </div>
           <div className={'w-[300px] h-[64px] bg-[#E1E3E0]'} >
 

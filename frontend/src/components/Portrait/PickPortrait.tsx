@@ -1,18 +1,17 @@
 import React, { useCallback } from 'react';
 import { ReactComponent as Random } from '../../assets/random.svg';
+import { ChampionType } from '../../type/type';
 
 interface PortraitProps {
-  id?: number;
+  champion: ChampionType;
   src?: string;
-  name: string;
-  callback?: (id: string) => void;
+  callback?: (champion: ChampionType) => void;
 }
-const PickPortrait: React.FC<PortraitProps> = ({ id, src, name, callback }) => {
-
+const PickPortrait: React.FC<PortraitProps> = ({ src, champion, callback }) => {
   const onClickChampionCallback = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    callback && callback(name);
-  }, [callback, name]);
+    callback && callback(champion);
+  }, [callback, champion]);
 
   return (
     <div className={'flex flex-col w-[88px] h-[120px] items-center justify-between'} onClick={onClickChampionCallback}>
@@ -23,7 +22,7 @@ const PickPortrait: React.FC<PortraitProps> = ({ id, src, name, callback }) => {
             <img src={src} alt={'portrait'} />
         }
       </figure>
-      <figcaption className={'text-lolYellow'}>{name}</figcaption>
+      <figcaption className={'text-lolYellow'}>{champion.id}</figcaption>
     </div>
   )
 }
