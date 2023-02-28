@@ -61,6 +61,7 @@ const Draft = ({...props}) => {
         <ChampionPicks portraitHandler={onChangePortrait} />
         <Button
           onClick={(e) => {
+            //TODO: 챔피언 중복 선택 방지를 위해 ChampionPicks로 props 내려주기 || 전역상태관리 쓰기.
             e.preventDefault();
             setStepPhase((prev) => prev + 1);
           }}>
