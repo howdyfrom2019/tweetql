@@ -8,6 +8,7 @@ import Selector from '../components/Selector/Selector';
 import { useMp3Loader } from '../hooks/useMp3Loader';
 import PlayerBan from '../components/BanPick/PlayerBan';
 import { ChampionType } from '../type/type';
+import Button from '../components/Button/Button';
 
 type DraftPhase = 'BAN' | 'PICK';
 
@@ -36,7 +37,7 @@ const Draft = ({...props}) => {
   }, []);
 
   return (
-    <div className={'flex flex-col relative mt-8'}>
+    <div className={'flex flex-col relative mt-8 no-scroll'}>
       <header className={'flex w-full max-w-screen-xl justify-between items-center mx-auto'}>
         <Selector<string>
           categories={[{ id: 0, content: '2022 WORLDS' }]}
@@ -52,18 +53,27 @@ const Draft = ({...props}) => {
       <main className={'flex flex-col justify-center items-center'}>
         <ChampionHandler />
         <ChampionPicks portraitHandler={onChangePortrait} />
+        <Button>선택하기</Button>
       </main>
       <article className={'flex flex-col sticky left-0 bottom-0 w-screen min-w-[1200px] z-50'}>
         <section className={'flex justify-between'}>
           <div className={'flex bg-blue-600 gap-[-1px]'}>
-            <PlayerBan patch={ltsPatch} image={selectedChampion?.image.full} disabled={false} />
-            <PlayerBan patch={ltsPatch} disabled={true} />
-            <PlayerBan patch={ltsPatch} disabled={true} />
-            <PlayerBan patch={ltsPatch} disabled={true} />
-            <PlayerBan patch={ltsPatch} disabled={true} />
+            <PlayerBan
+              patch={ltsPatch}
+              blueTeam
+              image={selectedChampion?.image.full}
+              disabled={false} />
+            <PlayerBan patch={ltsPatch} disabled={true} blueTeam />
+            <PlayerBan patch={ltsPatch} disabled={true} blueTeam />
+            <PlayerBan patch={ltsPatch} disabled={true} blueTeam />
+            <PlayerBan patch={ltsPatch} disabled={true} blueTeam />
           </div>
-          <div className={'w-[300px] h-[64px] bg-[#E1E3E0]'} >
-
+          <div className={'flex bg-[#E1E3E0] gap-[-1px]'} >
+            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
+            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
+            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
+            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
+            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
           </div>
         </section>
         <section className={'flex justify-between'}>

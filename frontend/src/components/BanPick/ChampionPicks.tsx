@@ -20,7 +20,8 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
     <div className={'relative'}>
       <Scrollbars
         style={{ width: 720, height: 560, zIndex: 10 }}
-        renderView={(props) => <div {...props} className={'flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} />}
+        hideTracksWhenNotNeeded
+        renderView={(props) => <div className={'absolute inset-0 overflow-scroll flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} />}
       >
         {
           !championLoading && championData && championData.allChampion && championData.allChampion.filter(Boolean).map((champion, i) => (

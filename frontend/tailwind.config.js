@@ -26,7 +26,8 @@ module.exports = {
         highlight: '#414073',
         lolYellow: '#a0946e',
         lolGreen: '#495a5a',
-        banBlue: 'rgba(255, 227, 224, 0.6)'
+        banBlue: 'rgba(255, 227, 224, 0.6)',
+        banRed: 'rgba(37, 99, 235, 0.6)',
       },
       boxShadow: {
         'search-bar': '-1px -1px 0 1px #383762',
