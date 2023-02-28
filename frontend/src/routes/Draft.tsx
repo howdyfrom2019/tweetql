@@ -14,10 +14,11 @@ type DraftPhase = 'BAN' | 'PICK';
 
 const musicTitles = ['Bitten Bullet'];
 
-const Draft = ({...props}) => {
+const Draft = ({ ...props }) => {
   const { data: ltsPatch } = props;
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
   const [stepPhase, setStepPhase] = useState(0);
+  const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
   const [bannedChampions, setBannedChampions] = useState<ChampionType[]>([]);
   const [selectedChampions, setSelectedChampions] = useState<ChampionType[]>([]);
   const [mp3Files] = useMp3Loader();
@@ -32,15 +33,35 @@ const Draft = ({...props}) => {
         return '의도치 않은 동작';
     }
   }, [currentPhase]);
-  const playlists = useMemo<PlayListProps[]>(() => mp3Files.map((src, i) => ({ src, fileName: musicTitles[i] })),[mp3Files]);
+  const playlists = useMemo<PlayListProps[]>(() => mp3Files.map((src, i) => ({
+    src,
+    fileName: musicTitles[i],
+  })), [mp3Files]);
 
-  const onChangePortrait = useCallback((champion: ChampionType) => {
+  const onFixChampionSelectInfo = useCallback(() => {
+    if (selectedChampion === null) return;
     if (currentPhase === 'BAN') {
-      setBannedChampions((prev) => [...prev, champion]);
+      setBannedChampions((prev) => [...prev, selectedChampion]);
     } else if (currentPhase === 'PICK') {
-      setSelectedChampions((prev) => [...prev, champion]);
+      setSelectedChampions((prev) => [...prev, selectedChampion]);
     }
-  }, [currentPhase]);
+    setStepPhase((prev) => prev + 1);
+  }, [selectedChampion, currentPhase]);
+
+  const onClickSelectButtonHandler = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    onFixChampionSelectInfo();
+    setSelectedChampion(null);
+  }, [onFixChampionSelectInfo]);
+
+  const getLOLBanPortrait = useCallback((phase: number) => {
+    if (stepPhase === phase) {
+      if (selectedChampion === null) return '';
+      return selectedChampion.image.full;
+    } else {
+      return bannedChampions[phase] && bannedChampions[phase].image.full;
+    }
+  }, [stepPhase, selectedChampion, bannedChampions]);
 
   return (
     <div className={'flex flex-col relative mt-8 no-scroll'}>
@@ -58,13 +79,9 @@ const Draft = ({...props}) => {
       </header>
       <main className={'flex flex-col justify-center items-center'}>
         <ChampionHandler />
-        <ChampionPicks portraitHandler={onChangePortrait} />
+        <ChampionPicks portraitHandler={(champion) => setSelectedChampion(champion)} />
         <Button
-          onClick={(e) => {
-            //TODO: 챔피언 중복 선택 방지를 위해 ChampionPicks로 props 내려주기 || 전역상태관리 쓰기.
-            e.preventDefault();
-            setStepPhase((prev) => prev + 1);
-          }}>
+          onClick={onClickSelectButtonHandler}>
           선택하기
         </Button>
       </main>
@@ -74,53 +91,53 @@ const Draft = ({...props}) => {
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={bannedChampions[0] && bannedChampions[0].image.full}
+              image={getLOLBanPortrait(0)}
               disabled={Boolean(bannedChampions[0]) || stepPhase < 0} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={bannedChampions[2] && bannedChampions[2].image.full}
+              image={getLOLBanPortrait(2)}
               disabled={Boolean(bannedChampions[2]) || stepPhase < 2} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={bannedChampions[4] && bannedChampions[4].image.full}
+              image={getLOLBanPortrait(4)}
               disabled={Boolean(bannedChampions[4]) || stepPhase < 4} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={bannedChampions[7] && bannedChampions[7].image.full}
+              image={getLOLBanPortrait(7)}
               disabled={Boolean(bannedChampions[7]) || stepPhase < 7} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={bannedChampions[9] && bannedChampions[9].image.full}
+              image={getLOLBanPortrait(9)}
               disabled={Boolean(bannedChampions[9]) || stepPhase < 9} />
           </div>
-          <div className={'flex bg-[#E1E3E0] gap-[-1px]'} >
+          <div className={'flex bg-[#E1E3E0] gap-[-1px]'}>
             <PlayerBan
               patch={ltsPatch}
-              image={bannedChampions[1] && bannedChampions[1].image.full}
+              image={getLOLBanPortrait(1)}
               blueTeam={false}
               disabled={Boolean(bannedChampions[1]) || stepPhase < 1} />
             <PlayerBan
               patch={ltsPatch}
-              image={bannedChampions[3] && bannedChampions[3].image.full}
+              image={getLOLBanPortrait(3)}
               blueTeam={false}
               disabled={Boolean(bannedChampions[3]) || stepPhase < 3} />
             <PlayerBan
               patch={ltsPatch}
-              image={bannedChampions[5] && bannedChampions[5].image.full}
+              image={getLOLBanPortrait(5)}
               blueTeam={false}
               disabled={Boolean(bannedChampions[5]) || stepPhase < 5} />
             <PlayerBan
               patch={ltsPatch}
-              image={bannedChampions[6] && bannedChampions[6].image.full}
+              image={getLOLBanPortrait(6)}
               blueTeam={false}
               disabled={Boolean(bannedChampions[6]) || stepPhase < 6} />
             <PlayerBan
               patch={ltsPatch}
-              image={bannedChampions[8] && bannedChampions[8].image.full}
+              image={getLOLBanPortrait(8)}
               blueTeam={false}
               disabled={Boolean(bannedChampions[8]) || stepPhase < 8} />
           </div>
@@ -143,7 +160,7 @@ const Draft = ({...props}) => {
         </section>
       </article>
     </div>
-  )
-}
+  );
+};
 
 export default withLatestVersion(Draft);
