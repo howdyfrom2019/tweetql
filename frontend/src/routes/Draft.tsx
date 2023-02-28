@@ -15,9 +15,11 @@ type DraftPhase = 'BAN' | 'PICK';
 const musicTitles = ['Bitten Bullet'];
 
 const Draft = ({...props}) => {
-  const { data: ltsPatch, error: patchError, loading: patchLoading } = props;
-  const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
+  const { data: ltsPatch } = props;
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
+  const [stepPhase, setStepPhase] = useState(0);
+  const [bannedChampions, setBannedChampions] = useState<ChampionType[]>([]);
+  const [selectedChampions, setSelectedChampions] = useState<ChampionType[]>([]);
   const [mp3Files] = useMp3Loader();
 
   const phaseUIText = useMemo(() => {
@@ -33,8 +35,12 @@ const Draft = ({...props}) => {
   const playlists = useMemo<PlayListProps[]>(() => mp3Files.map((src, i) => ({ src, fileName: musicTitles[i] })),[mp3Files]);
 
   const onChangePortrait = useCallback((champion: ChampionType) => {
-    setSelectedChampion(champion);
-  }, []);
+    if (currentPhase === 'BAN') {
+      setBannedChampions((prev) => [...prev, champion]);
+    } else if (currentPhase === 'PICK') {
+      setSelectedChampions((prev) => [...prev, champion]);
+    }
+  }, [currentPhase]);
 
   return (
     <div className={'flex flex-col relative mt-8 no-scroll'}>
@@ -53,7 +59,13 @@ const Draft = ({...props}) => {
       <main className={'flex flex-col justify-center items-center'}>
         <ChampionHandler />
         <ChampionPicks portraitHandler={onChangePortrait} />
-        <Button>선택하기</Button>
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            setStepPhase((prev) => prev + 1);
+          }}>
+          선택하기
+        </Button>
       </main>
       <article className={'flex flex-col sticky left-0 bottom-0 w-screen min-w-[1200px] z-50'}>
         <section className={'flex justify-between'}>
@@ -61,19 +73,55 @@ const Draft = ({...props}) => {
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={selectedChampion?.image.full}
-              disabled={false} />
-            <PlayerBan patch={ltsPatch} disabled={true} blueTeam />
-            <PlayerBan patch={ltsPatch} disabled={true} blueTeam />
-            <PlayerBan patch={ltsPatch} disabled={true} blueTeam />
-            <PlayerBan patch={ltsPatch} disabled={true} blueTeam />
+              image={bannedChampions[0] && bannedChampions[0].image.full}
+              disabled={Boolean(bannedChampions[0]) || stepPhase < 0} />
+            <PlayerBan
+              patch={ltsPatch}
+              blueTeam
+              image={bannedChampions[2] && bannedChampions[2].image.full}
+              disabled={Boolean(bannedChampions[2]) || stepPhase < 2} />
+            <PlayerBan
+              patch={ltsPatch}
+              blueTeam
+              image={bannedChampions[4] && bannedChampions[4].image.full}
+              disabled={Boolean(bannedChampions[4]) || stepPhase < 4} />
+            <PlayerBan
+              patch={ltsPatch}
+              blueTeam
+              image={bannedChampions[7] && bannedChampions[7].image.full}
+              disabled={Boolean(bannedChampions[7]) || stepPhase < 7} />
+            <PlayerBan
+              patch={ltsPatch}
+              blueTeam
+              image={bannedChampions[9] && bannedChampions[9].image.full}
+              disabled={Boolean(bannedChampions[9]) || stepPhase < 9} />
           </div>
           <div className={'flex bg-[#E1E3E0] gap-[-1px]'} >
-            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
-            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
-            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
-            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
-            <PlayerBan patch={ltsPatch} blueTeam={false} disabled={true} />
+            <PlayerBan
+              patch={ltsPatch}
+              image={bannedChampions[1] && bannedChampions[1].image.full}
+              blueTeam={false}
+              disabled={Boolean(bannedChampions[1]) || stepPhase < 1} />
+            <PlayerBan
+              patch={ltsPatch}
+              image={bannedChampions[3] && bannedChampions[3].image.full}
+              blueTeam={false}
+              disabled={Boolean(bannedChampions[3]) || stepPhase < 3} />
+            <PlayerBan
+              patch={ltsPatch}
+              image={bannedChampions[5] && bannedChampions[5].image.full}
+              blueTeam={false}
+              disabled={Boolean(bannedChampions[5]) || stepPhase < 5} />
+            <PlayerBan
+              patch={ltsPatch}
+              image={bannedChampions[6] && bannedChampions[6].image.full}
+              blueTeam={false}
+              disabled={Boolean(bannedChampions[6]) || stepPhase < 6} />
+            <PlayerBan
+              patch={ltsPatch}
+              image={bannedChampions[8] && bannedChampions[8].image.full}
+              blueTeam={false}
+              disabled={Boolean(bannedChampions[8]) || stepPhase < 8} />
           </div>
         </section>
         <section className={'flex justify-between'}>

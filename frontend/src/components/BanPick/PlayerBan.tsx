@@ -13,9 +13,9 @@ const PlayerBan = ({ patch, blueTeam, image, disabled }: Props) => {
     <figure className={`relative w-16 h-16`}>
       {image && image.length > 0 && <img src={src} alt={'banned_champion'} />}
       <span className={`absolute w-full h-full bg-200% z-10 top-0 left-0 ${disabled ? '' : 'bg-gradient-to-t animate-ban-select'} ${blueTeam ? 'from-banBlue' : 'from-banRed'}`} />
-      <span className={'absolute top-3 left-3 left-0 blue-team-diagonal'} />
+      <span className={`absolute top-3 left-3 left-0 ${blueTeam ? 'blue-team-diagonal' : 'red-team-diagonal'}`} />
     </figure>
   );
 };
 
-export default PlayerBan;
+export default React.memo(PlayerBan);
