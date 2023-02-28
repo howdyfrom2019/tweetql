@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import BGM from '../../assets/music/1.mp3';
 
 export interface PlayListProps {
   src: string;
@@ -10,17 +11,26 @@ interface Props {
   callback?: (id: number) => void;
 }
 
-type MusicHandlerType = 'NEXT' | 'PREV';
+type MusicHandlerType = 'NEXT' | 'PREV' | 'INIT';
 const BASIC_MUSIC_BAR_STYLE = 'h-px w-px scale-y-200 bg-lolYellow';
 
 const MusicPlayer = ({ playlist, callback }: Props) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [cursor, setCursor] = useState(0);
   const [isPlay, setIsPlay] = useState(false);
-  const audioSource = useMemo(() => playlist.length <= cursor ? '' : playlist[cursor].src, [playlist, cursor]);
 
-  const changeMusic = useCallback((type: MusicHandlerType) => {
+  const setMusicSource = useCallback(() => {
+    if (!audioRef.current) return;
+    if (playlist.length === 0) return;
+
+    audioRef.current.src = playlist[cursor].src;
+  }, [cursor, playlist]);
+
+  const handleMusic = useCallback((type: MusicHandlerType) => {
     switch (type) {
+      case 'INIT':
+        setMusicSource();
+        break;
       case 'NEXT':
         setCursor((prev) => Math.min(playlist.length - 1, prev + 1));
         break;
@@ -32,7 +42,7 @@ const MusicPlayer = ({ playlist, callback }: Props) => {
     }
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play();
+      // audioRef.current.play();
     }
   }, [playlist]);
 
@@ -53,6 +63,10 @@ const MusicPlayer = ({ playlist, callback }: Props) => {
     setIsPlay((prev) => !prev);
   }, []);
 
+  useEffect(() => {
+    handleMusic('INIT');
+  }, [playlist]);
+
   return (
     <>
       <figure className={'rounded-full border border-lolYellow w-36 px-4 py-2 flex justify-between items-center'}>
@@ -69,7 +83,7 @@ const MusicPlayer = ({ playlist, callback }: Props) => {
           className={'font-regular-12 text-lolYellow truncate whitespace-nowrap max-w-20'}>{playlist[cursor]?.fileName || '____'}</figcaption>
       </figure>
       <audio muted playsInline loop ref={audioRef}>
-        <source src={audioSource} type={'audio/mp3'} />
+        <source src={''} type={'audio/mp3'} />
       </audio>
     </>
   );
