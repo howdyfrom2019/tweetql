@@ -107,12 +107,12 @@ const Draft = ({ ...props }) => {
               patch={ltsPatch}
               blueTeam
               image={getLOLBanPortrait(7)}
-              disabled={Boolean(bannedChampions[7]) || stepPhase < 7} />
+              disabled={Boolean(bannedChampions[7]) || stepPhase < 13} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
               image={getLOLBanPortrait(9)}
-              disabled={Boolean(bannedChampions[9]) || stepPhase < 9} />
+              disabled={Boolean(bannedChampions[9]) || stepPhase < 15} />
           </div>
           <div className={'flex bg-[#E1E3E0] gap-[-1px]'}>
             <PlayerBan
@@ -134,28 +134,28 @@ const Draft = ({ ...props }) => {
               patch={ltsPatch}
               image={getLOLBanPortrait(6)}
               blueTeam={false}
-              disabled={Boolean(bannedChampions[6]) || stepPhase < 6} />
+              disabled={Boolean(bannedChampions[6]) || stepPhase < 12} />
             <PlayerBan
               patch={ltsPatch}
               image={getLOLBanPortrait(8)}
               blueTeam={false}
-              disabled={Boolean(bannedChampions[8]) || stepPhase < 8} />
+              disabled={Boolean(bannedChampions[8]) || stepPhase < 14} />
           </div>
         </section>
         <section className={'flex justify-between'}>
           <div className={'flex flex-1 bg-[#111110] border-t-2 border-lolYellow h-[180px]'}>
-            <PlayerPick isPickPhase={false} lane={'TOP'} isBlue />
-            <PlayerPick isPickPhase={false} lane={'JUG'} isBlue />
-            <PlayerPick isPickPhase={false} lane={'MID'} isBlue />
-            <PlayerPick isPickPhase={false} lane={'BOT'} isBlue />
-            <PlayerPick isPickPhase={false} lane={'SUP'} isBlue />
+            <PlayerPick disabled={false} lane={'TOP'} isBlue />
+            <PlayerPick disabled={true} lane={'JUG'} isBlue />
+            <PlayerPick disabled={true} lane={'MID'} isBlue />
+            <PlayerPick disabled={true} lane={'BOT'} isBlue />
+            <PlayerPick disabled={true} lane={'SUP'} isBlue />
           </div>
           <div className={'flex flex-1 justify-end bg-[#111110] border-t-2 border-lolYellow h-[180px]'}>
-            <PlayerPick isPickPhase={false} lane={'TOP'} isBlue={false} />
-            <PlayerPick isPickPhase={false} lane={'JUG'} isBlue={false} />
-            <PlayerPick isPickPhase={false} lane={'MID'} isBlue={false} />
-            <PlayerPick isPickPhase={false} lane={'BOT'} isBlue={false} />
-            <PlayerPick isPickPhase={false} lane={'SUP'} isBlue={false} />
+            <PlayerPick disabled={true} lane={'TOP'} isBlue={false} />
+            <PlayerPick disabled={true} lane={'JUG'} isBlue={false} />
+            <PlayerPick disabled={true} lane={'MID'} isBlue={false} />
+            <PlayerPick disabled={true} lane={'BOT'} isBlue={false} />
+            <PlayerPick disabled={true} lane={'SUP'} isBlue={false} />
           </div>
         </section>
       </article>
