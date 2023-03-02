@@ -3,7 +3,7 @@ import Banned from './Banned';
 import { ChampionsByTeam } from '../../type/type';
 
 export interface RootStoredStateType {
-  banned: (ChampionsByTeam | null)[];
+  banned: ChampionsByTeam;
 }
 
 const rootReducer = combineReducers<RootStoredStateType>({

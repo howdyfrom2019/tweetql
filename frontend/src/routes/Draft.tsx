@@ -7,11 +7,11 @@ import MusicPlayer, { PlayListProps } from '../components/MusicPlayer/MusicPlaye
 import Selector from '../components/Selector/Selector';
 import { useMp3Loader } from '../hooks/useMp3Loader';
 import PlayerBan from '../components/BanPick/PlayerBan';
-import { ChampionType } from '../type/type';
+import { ChampionsByTeam, ChampionType, TEAM_TYPE } from '../type/type';
 import Button from '../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStoredStateType } from '../store/reducers/RootReducer';
-import { addBannedChampion } from '../store/reducers/Banned';
+import { addBlueBanned, addRedBanned } from '../store/reducers/Banned';
 
 type DraftPhase = 'BAN' | 'PICK';
 
@@ -21,13 +21,10 @@ const Draft = ({ ...props }) => {
   const dispatch = useDispatch();
   const { data: ltsPatch } = props;
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
-  const [stepPhase, setStepPhase] = useState(0);
   const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
-  const [bannedChampions, setBannedChampions] = useState<ChampionType[]>([]);
-  const banned = useSelector<RootStoredStateType>((state) => state.banned);
+  const { blue: blueBannedChampions, red: redBannedChampions } = useSelector<RootStoredStateType, ChampionsByTeam>((state) => state.banned);
   const [selectedChampions, setSelectedChampions] = useState<ChampionType[]>([]);
   const [mp3Files] = useMp3Loader();
-  console.log(banned);
 
   const phaseUIText = useMemo(() => {
     switch (currentPhase) {
@@ -44,31 +41,72 @@ const Draft = ({ ...props }) => {
     fileName: musicTitles[i],
   })), [mp3Files]);
 
-  const onFixChampionSelectInfo = useCallback(() => {
+  const onFixChampionSelectInfo = useCallback((team: TEAM_TYPE) => {
     if (selectedChampion === null) return;
     if (currentPhase === 'BAN') {
-      dispatch(addBannedChampion({ team: 'BLUE', champion: selectedChampion }));
-      setBannedChampions((prev) => [...prev, selectedChampion]);
+      switch (team) {
+        case 'BLUE':
+          dispatch(addBlueBanned(selectedChampion));
+          break;
+        case 'RED':
+          dispatch(addRedBanned(selectedChampion));
+      }
     } else if (currentPhase === 'PICK') {
       setSelectedChampions((prev) => [...prev, selectedChampion]);
     }
-    setStepPhase((prev) => prev + 1);
   }, [selectedChampion, currentPhase]);
+
+  const getCurrentBanOrder = useCallback((): TEAM_TYPE => {
+    const blues = blueBannedChampions.length;
+    const reds = redBannedChampions.length;
+
+    if (blues <= 3 && reds < 3) {
+      return blues - reds === 0 ? 'BLUE' : 'RED';
+    } else {
+      return reds - blues === 0 ? 'RED' : 'BLUE';
+    }
+
+  }, [blueBannedChampions, redBannedChampions])
 
   const onClickSelectButtonHandler = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onFixChampionSelectInfo();
+    onFixChampionSelectInfo(getCurrentBanOrder());
     setSelectedChampion(null);
   }, [onFixChampionSelectInfo]);
 
-  const getLOLBanPortrait = useCallback((phase: number) => {
-    if (stepPhase === phase) {
-      if (selectedChampion === null) return '';
-      return selectedChampion.image.full;
+  const getCurrentBanDisability = useCallback((type: TEAM_TYPE, index: number) => {
+    const blues = blueBannedChampions.length;
+    const reds = redBannedChampions.length;
+
+    if (index >= 3) {
+      if (type === 'RED') return blues !== index || reds !== index;
+      return blues !== index || reds !== index + 1;
     } else {
-      return bannedChampions[phase] && bannedChampions[phase].image.full;
+      if (type === 'BLUE') return blues !== index || reds !== index;
+      return blues !== index + 1 || reds !== index;
     }
-  }, [stepPhase, selectedChampion, bannedChampions]);
+  }, [blueBannedChampions, redBannedChampions])
+
+  const getBannedChampions = useCallback((bannedArr: (ChampionType | null)[], type: TEAM_TYPE, index: number) => {
+    const n = bannedArr.length;
+    if (!getCurrentBanDisability(type, index)) {
+      return selectedChampion === null ? '' : selectedChampion.image.full;
+    }
+
+    if (index > n) return '';
+    return bannedArr[index]?.image.full;
+  }, [selectedChampion]);
+
+  const getLOLBanPortrait = useCallback((type: TEAM_TYPE, index: number) => {
+    switch (type) {
+      case 'BLUE':
+        return getBannedChampions(blueBannedChampions, type, index);
+      case 'RED':
+        return getBannedChampions(redBannedChampions, type, index);
+      default:
+        return '';
+    }
+  }, [selectedChampion, blueBannedChampions, redBannedChampions]);
 
   return (
     <div className={'flex flex-col relative mt-8 no-scroll'}>
@@ -98,55 +136,55 @@ const Draft = ({ ...props }) => {
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={getLOLBanPortrait(0)}
-              disabled={Boolean(bannedChampions[0]) || stepPhase < 0} />
+              image={getLOLBanPortrait('BLUE',0)}
+              disabled={getCurrentBanDisability('BLUE', 0)} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={getLOLBanPortrait(2)}
-              disabled={Boolean(bannedChampions[2]) || stepPhase < 2} />
+              image={getLOLBanPortrait('BLUE',1)}
+              disabled={getCurrentBanDisability('BLUE', 1)} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={getLOLBanPortrait(4)}
-              disabled={Boolean(bannedChampions[4]) || stepPhase < 4} />
+              image={getLOLBanPortrait('BLUE',2)}
+              disabled={getCurrentBanDisability('BLUE', 2)} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={getLOLBanPortrait(7)}
-              disabled={Boolean(bannedChampions[7]) || stepPhase < 13} />
+              image={getLOLBanPortrait('BLUE',3)}
+              disabled={getCurrentBanDisability('BLUE', 3)} />
             <PlayerBan
               patch={ltsPatch}
               blueTeam
-              image={getLOLBanPortrait(9)}
-              disabled={Boolean(bannedChampions[9]) || stepPhase < 15} />
+              image={getLOLBanPortrait('BLUE',4)}
+              disabled={getCurrentBanDisability('BLUE', 4)} />
           </div>
           <div className={'flex bg-[#E1E3E0] gap-[-1px]'}>
             <PlayerBan
               patch={ltsPatch}
-              image={getLOLBanPortrait(1)}
+              image={getLOLBanPortrait('RED',0)}
               blueTeam={false}
-              disabled={Boolean(bannedChampions[1]) || stepPhase < 1} />
+              disabled={getCurrentBanDisability('RED', 0)} />
             <PlayerBan
               patch={ltsPatch}
-              image={getLOLBanPortrait(3)}
+              image={getLOLBanPortrait('RED',1)}
               blueTeam={false}
-              disabled={Boolean(bannedChampions[3]) || stepPhase < 3} />
+              disabled={getCurrentBanDisability('RED', 1)} />
             <PlayerBan
               patch={ltsPatch}
-              image={getLOLBanPortrait(5)}
+              image={getLOLBanPortrait('RED',2)}
               blueTeam={false}
-              disabled={Boolean(bannedChampions[5]) || stepPhase < 5} />
+              disabled={getCurrentBanDisability('RED', 2)} />
             <PlayerBan
               patch={ltsPatch}
-              image={getLOLBanPortrait(6)}
+              image={getLOLBanPortrait('RED',3)}
               blueTeam={false}
-              disabled={Boolean(bannedChampions[6]) || stepPhase < 12} />
+              disabled={getCurrentBanDisability('RED', 3)} />
             <PlayerBan
               patch={ltsPatch}
-              image={getLOLBanPortrait(8)}
+              image={getLOLBanPortrait('RED',4)}
               blueTeam={false}
-              disabled={Boolean(bannedChampions[8]) || stepPhase < 14} />
+              disabled={getCurrentBanDisability('RED', 4)} />
           </div>
         </section>
         <section className={'flex justify-between'}>

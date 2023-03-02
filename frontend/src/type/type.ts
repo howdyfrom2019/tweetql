@@ -131,6 +131,6 @@ export interface DataState<T> {
 }
 
 export interface ChampionsByTeam {
-  team: TEAM_TYPE;
-  champion: ChampionType | null;
+  blue: (ChampionType | null)[];
+  red: (ChampionType | null)[];
 }
