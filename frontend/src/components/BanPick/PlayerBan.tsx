@@ -9,6 +9,7 @@ interface Props {
 
 const PlayerBan = ({ patch, blueTeam, image, disabled }: Props) => {
   const src = useMemo(() => `https://ddragon.leagueoflegends.com/cdn/${patch}/img/champion/${image}`, [patch, image]);
+
   return (
     <figure className={`relative w-16 h-16`}>
       {image && image.length > 0 && <img className={'z-10'} src={src} alt={'banned_champion'} />}

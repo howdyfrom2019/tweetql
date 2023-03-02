@@ -5,8 +5,8 @@ export interface LtsVersionType {
 }
 
 export type LANE_TYPE = 'TOP' | 'JUG' | 'MID' | 'BOT' | 'SUP' | 'ALL';
-
 export type ORDER_TYPE = 'NAME' | 'ID' | 'RECENTLY_SEARCHED';
+export type TEAM_TYPE = 'BLUE' | 'RED';
 
 export interface ChampionFilterType {
   lane: LANE_TYPE;
@@ -128,4 +128,9 @@ export interface DataState<T> {
   loading: boolean;
   error?: ApolloError;
   data?: T
+}
+
+export interface ChampionsByTeam {
+  team: TEAM_TYPE;
+  champion: ChampionType | null;
 }

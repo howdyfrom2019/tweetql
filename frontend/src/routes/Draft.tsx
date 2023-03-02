@@ -9,19 +9,25 @@ import { useMp3Loader } from '../hooks/useMp3Loader';
 import PlayerBan from '../components/BanPick/PlayerBan';
 import { ChampionType } from '../type/type';
 import Button from '../components/Button/Button';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootStoredStateType } from '../store/reducers/RootReducer';
+import { addBannedChampion } from '../store/reducers/Banned';
 
 type DraftPhase = 'BAN' | 'PICK';
 
 const musicTitles = ['Bitten Bullet'];
 
 const Draft = ({ ...props }) => {
+  const dispatch = useDispatch();
   const { data: ltsPatch } = props;
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
   const [stepPhase, setStepPhase] = useState(0);
   const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
   const [bannedChampions, setBannedChampions] = useState<ChampionType[]>([]);
+  const banned = useSelector<RootStoredStateType>((state) => state.banned);
   const [selectedChampions, setSelectedChampions] = useState<ChampionType[]>([]);
   const [mp3Files] = useMp3Loader();
+  console.log(banned);
 
   const phaseUIText = useMemo(() => {
     switch (currentPhase) {
@@ -41,6 +47,7 @@ const Draft = ({ ...props }) => {
   const onFixChampionSelectInfo = useCallback(() => {
     if (selectedChampion === null) return;
     if (currentPhase === 'BAN') {
+      dispatch(addBannedChampion({ team: 'BLUE', champion: selectedChampion }));
       setBannedChampions((prev) => [...prev, selectedChampion]);
     } else if (currentPhase === 'PICK') {
       setSelectedChampions((prev) => [...prev, selectedChampion]);
