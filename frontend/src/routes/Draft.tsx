@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import withLatestVersion from '../utils/withSelectedVersion';
 import PlayerPick from '../components/BanPick/PlayerPick';
 import ChampionPicks from '../components/BanPick/ChampionPicks';
@@ -75,6 +75,7 @@ const Draft = ({ ...props }) => {
   }, [onFixChampionSelectInfo]);
 
   const getCurrentBanDisability = useCallback((type: TEAM_TYPE, index: number) => {
+    if (currentPhase === 'PICK') return true;
     const blues = blueBannedChampions.length;
     const reds = redBannedChampions.length;
 
@@ -85,7 +86,7 @@ const Draft = ({ ...props }) => {
       if (type === 'BLUE') return blues !== index || reds !== index;
       return blues !== index + 1 || reds !== index;
     }
-  }, [blueBannedChampions, redBannedChampions])
+  }, [currentPhase, blueBannedChampions, redBannedChampions])
 
   const getBannedChampions = useCallback((bannedArr: (ChampionType | null)[], type: TEAM_TYPE, index: number) => {
     const n = bannedArr.length;
@@ -107,6 +108,15 @@ const Draft = ({ ...props }) => {
         return '';
     }
   }, [selectedChampion, blueBannedChampions, redBannedChampions]);
+
+  useEffect(() => {
+    const blues = blueBannedChampions.length;
+    const reds = redBannedChampions.length;
+
+    if (blues === 3 && reds === 3) {
+      setCurrentPhase('PICK');
+    }
+  }, [blueBannedChampions, redBannedChampions]);
 
   return (
     <div className={'flex flex-col relative mt-8 no-scroll'}>

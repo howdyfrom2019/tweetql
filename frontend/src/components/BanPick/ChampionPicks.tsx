@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import withLatestVersion, { WithSelectedVersionProps } from '../../utils/withSelectedVersion';
 import { useQuery } from '@apollo/client';
-import { ChampionType, DataState } from '../../type/type';
+import { ChampionsByTeam, ChampionType, DataState } from '../../type/type';
 import { ALL_CHAMPIONS } from '../../type/api';
 import Scrollbars from 'react-custom-scrollbars-2';
 import PickPortrait from '../Portrait/PickPortrait';
 import DraftBG from '../../assets/draft_outline.png';
+import { useSelector } from 'react-redux';
+import { RootStoredStateType } from '../../store/reducers/RootReducer';
 
 interface Props extends WithSelectedVersionProps {
   portraitHandler?: (champion: ChampionType) => void;
@@ -15,6 +17,8 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
   const { data, error, loading } = result as unknown as DataState<string>;
   const { data: championData, error: championError, loading: championLoading } = useQuery<{ allChampion: ChampionType[]}>(ALL_CHAMPIONS,
     { variables: { version: data || '13.3.1' } });
+  const { blue: blueBannedChampions, red: redBannedChampions } = useSelector<RootStoredStateType, ChampionsByTeam>((state) => state.banned);
+  const bannedChampionId = useMemo(() => blueBannedChampions.concat(redBannedChampions).map((champion) => champion?.id), [blueBannedChampions, redBannedChampions]);
 
   return (
     <div className={'relative'}>
@@ -30,6 +34,7 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
               src={`https://ddragon.leagueoflegends.com/cdn/${data || '13.3.1'}/img/champion/${champion.image.full}`}
               key={champion.id}
               callback={portraitHandler}
+              disabled={bannedChampionId.includes(champion.id)}
             />
           ))
         }
