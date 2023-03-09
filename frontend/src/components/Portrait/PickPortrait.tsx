@@ -16,13 +16,13 @@ const PickPortrait: React.FC<PortraitProps> = ({ src, champion, callback, disabl
 
   return (
     <div className={'flex flex-col w-[88px] h-[120px] items-center justify-between'} onClick={onClickChampionCallback}>
-      <figure className={'relative border border-lolGreen relative bg-[#00070f] w-[88px] h-[88px]'}>
+      <figure className={`relative border border-lolGreen relative bg-[#00070f] w-[88px] h-[88px] ${disabled ? 'opacity-30' : 'cursor-pointer'}`}>
         {
           !Boolean(src) ?
             <Random className={'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'} /> :
             <>
               <img src={src} alt={'portrait'} />
-              {disabled && <span className={'absolute w-full h-full top-0 left-0 bg-red-500'} />}
+              {/*{disabled && <span className={'absolute w-full h-full top-0 left-0 bg-red-500'} />}*/}
             </>
 
         }

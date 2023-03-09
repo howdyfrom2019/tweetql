@@ -11,7 +11,7 @@ import { ChampionsByTeam, ChampionType, TEAM_TYPE } from '../type/type';
 import Button from '../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStoredStateType } from '../store/reducers/RootReducer';
-import { addBlueBanned, addRedBanned } from '../store/reducers/Banned';
+import { addBlue, addRed } from '../store/reducers/Banned';
 
 type DraftPhase = 'BAN' | 'PICK';
 
@@ -23,7 +23,6 @@ const Draft = ({ ...props }) => {
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
   const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
   const { blue: blueBannedChampions, red: redBannedChampions } = useSelector<RootStoredStateType, ChampionsByTeam>((state) => state.banned);
-  const [selectedChampions, setSelectedChampions] = useState<ChampionType[]>([]);
   const [mp3Files] = useMp3Loader();
 
   const phaseUIText = useMemo(() => {
@@ -46,13 +45,13 @@ const Draft = ({ ...props }) => {
     if (currentPhase === 'BAN') {
       switch (team) {
         case 'BLUE':
-          dispatch(addBlueBanned(selectedChampion));
+          dispatch(addBlue(selectedChampion));
           break;
         case 'RED':
-          dispatch(addRedBanned(selectedChampion));
+          dispatch(addRed(selectedChampion));
       }
     } else if (currentPhase === 'PICK') {
-      setSelectedChampions((prev) => [...prev, selectedChampion]);
+
     }
   }, [selectedChampion, currentPhase]);
 
@@ -109,6 +108,10 @@ const Draft = ({ ...props }) => {
     }
   }, [selectedChampion, blueBannedChampions, redBannedChampions]);
 
+  const getLOLPickPortrait = useCallback((type: TEAM_TYPE, index: number) => {
+
+  }, []);
+
   useEffect(() => {
     const blues = blueBannedChampions.length;
     const reds = redBannedChampions.length;
@@ -143,63 +146,33 @@ const Draft = ({ ...props }) => {
       <article className={'flex flex-col sticky left-0 bottom-0 w-screen min-w-[1200px] z-50'}>
         <section className={'flex justify-between'}>
           <div className={'flex bg-blue-600 gap-[-1px]'}>
-            <PlayerBan
-              patch={ltsPatch}
-              blueTeam
-              image={getLOLBanPortrait('BLUE',0)}
-              disabled={getCurrentBanDisability('BLUE', 0)} />
-            <PlayerBan
-              patch={ltsPatch}
-              blueTeam
-              image={getLOLBanPortrait('BLUE',1)}
-              disabled={getCurrentBanDisability('BLUE', 1)} />
-            <PlayerBan
-              patch={ltsPatch}
-              blueTeam
-              image={getLOLBanPortrait('BLUE',2)}
-              disabled={getCurrentBanDisability('BLUE', 2)} />
-            <PlayerBan
-              patch={ltsPatch}
-              blueTeam
-              image={getLOLBanPortrait('BLUE',3)}
-              disabled={getCurrentBanDisability('BLUE', 3)} />
-            <PlayerBan
-              patch={ltsPatch}
-              blueTeam
-              image={getLOLBanPortrait('BLUE',4)}
-              disabled={getCurrentBanDisability('BLUE', 4)} />
+            {
+              Array.from({ length: 5 }, (_, i) => (
+                <PlayerBan
+                  patch={ltsPatch}
+                  blueTeam
+                  image={getLOLBanPortrait('BLUE', i)}
+                  disabled={getCurrentBanDisability('BLUE', i)}
+                />
+              ))
+            }
           </div>
           <div className={'flex bg-[#E1E3E0] gap-[-1px]'}>
-            <PlayerBan
-              patch={ltsPatch}
-              image={getLOLBanPortrait('RED',0)}
-              blueTeam={false}
-              disabled={getCurrentBanDisability('RED', 0)} />
-            <PlayerBan
-              patch={ltsPatch}
-              image={getLOLBanPortrait('RED',1)}
-              blueTeam={false}
-              disabled={getCurrentBanDisability('RED', 1)} />
-            <PlayerBan
-              patch={ltsPatch}
-              image={getLOLBanPortrait('RED',2)}
-              blueTeam={false}
-              disabled={getCurrentBanDisability('RED', 2)} />
-            <PlayerBan
-              patch={ltsPatch}
-              image={getLOLBanPortrait('RED',3)}
-              blueTeam={false}
-              disabled={getCurrentBanDisability('RED', 3)} />
-            <PlayerBan
-              patch={ltsPatch}
-              image={getLOLBanPortrait('RED',4)}
-              blueTeam={false}
-              disabled={getCurrentBanDisability('RED', 4)} />
+            {
+              Array.from({ length: 5 }, (_, i) => (
+                <PlayerBan
+                  patch={ltsPatch}
+                  blueTeam={false}
+                  image={getLOLBanPortrait('RED', i)}
+                  disabled={getCurrentBanDisability('RED', i)}
+                />
+              ))
+            }
           </div>
         </section>
         <section className={'flex justify-between'}>
           <div className={'flex flex-1 bg-[#111110] border-t-2 border-lolYellow h-[180px]'}>
-            <PlayerPick disabled={false} lane={'TOP'} isBlue />
+            <PlayerPick image={'Aatrox'} disabled={false} lane={'TOP'} isBlue />
             <PlayerPick disabled={true} lane={'JUG'} isBlue />
             <PlayerPick disabled={true} lane={'MID'} isBlue />
             <PlayerPick disabled={true} lane={'BOT'} isBlue />
