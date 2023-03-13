@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import Banned from './Banned';
 import { ChampionsByTeam } from '../../type/type';
+import Picked from './Picked';
 
 export interface RootStoredStateType {
   banned: ChampionsByTeam;
@@ -9,7 +10,7 @@ export interface RootStoredStateType {
 
 const rootReducer = combineReducers<RootStoredStateType>({
   banned: Banned,
-  picked: Banned,
+  picked: Picked,
 });
 
 export default rootReducer;

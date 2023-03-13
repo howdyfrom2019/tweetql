@@ -7,15 +7,17 @@ import MusicPlayer, { PlayListProps } from '../components/MusicPlayer/MusicPlaye
 import Selector from '../components/Selector/Selector';
 import { useMp3Loader } from '../hooks/useMp3Loader';
 import PlayerBan from '../components/BanPick/PlayerBan';
-import { ChampionsByTeam, ChampionType, TEAM_TYPE } from '../type/type';
+import { ChampionsByTeam, ChampionType, LANE_TYPE, TEAM_TYPE } from '../type/type';
 import Button from '../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, RootStoredStateType } from '../store/reducers/RootReducer';
 import { addBanBlue, addBanRed } from '../store/reducers/Banned';
+import { addPickBlue, addPickRed } from '../store/reducers/Picked';
 
 type DraftPhase = 'BAN' | 'PICK';
 
 const musicTitles = ['Bitten Bullet'];
+const PICK_ORDER: LANE_TYPE[] = ['TOP', 'JUG', 'MID', 'BOT', 'SUP'];
 
 const Draft = ({ ...props }) => {
   const dispatch = useDispatch();
@@ -23,6 +25,7 @@ const Draft = ({ ...props }) => {
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
   const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
   const { blue: blueBannedChampions, red: redBannedChampions } = useSelector<RootState, ChampionsByTeam>((state) => state.banned);
+  const { blue: bluePickedChampions, red: redPickedChampions } = useSelector<RootState, ChampionsByTeam>((state) => state.picked);
   const [mp3Files] = useMp3Loader();
 
   const phaseUIText = useMemo(() => {
@@ -35,13 +38,18 @@ const Draft = ({ ...props }) => {
         return '의도치 않은 동작';
     }
   }, [currentPhase]);
+
   const playlists = useMemo<PlayListProps[]>(() => mp3Files.map((src, i) => ({
     src,
     fileName: musicTitles[i],
   })), [mp3Files]);
 
-  const onFixChampionSelectInfo = useCallback((team: TEAM_TYPE) => {
+  const onFixChampionSelectInfo = useCallback(() => {
     if (selectedChampion === null) return;
+
+    const team = currentPhase === 'BAN' ? getCurrentBanOrder() : getCurrentPickOrder();
+    console.log(currentPhase, team, selectedChampion);
+
     if (currentPhase === 'BAN') {
       switch (team) {
         case 'BLUE':
@@ -49,9 +57,17 @@ const Draft = ({ ...props }) => {
           break;
         case 'RED':
           dispatch(addBanRed(selectedChampion));
+          break;
       }
     } else if (currentPhase === 'PICK') {
-
+      switch (team) {
+        case 'BLUE':
+          dispatch(addPickBlue(selectedChampion));
+          break;
+        case 'RED':
+          dispatch(addPickRed(selectedChampion));
+          break;
+      }
     }
   }, [selectedChampion, currentPhase]);
 
@@ -65,11 +81,23 @@ const Draft = ({ ...props }) => {
       return reds - blues === 0 ? 'RED' : 'BLUE';
     }
 
-  }, [blueBannedChampions, redBannedChampions])
+  }, [blueBannedChampions, redBannedChampions]);
+
+  const getCurrentPickOrder = useCallback((): TEAM_TYPE => {
+    const blues = bluePickedChampions.length;
+    const reds = redPickedChampions.length;
+
+    if (blues === 0 && reds === 0) return 'BLUE';
+    else if (blues === 1 && reds < 2) return 'RED';
+    else if (reds === 2 && blues < 3) return 'BLUE';
+    else if (blues === 3 && reds < 4) return 'RED';
+    else if (reds === 4 && blues < 5) return 'BLUE';
+    return 'RED';
+  }, [bluePickedChampions, redPickedChampions]);
 
   const onClickSelectButtonHandler = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onFixChampionSelectInfo(getCurrentBanOrder());
+    onFixChampionSelectInfo();
     setSelectedChampion(null);
   }, [onFixChampionSelectInfo]);
 
@@ -85,7 +113,25 @@ const Draft = ({ ...props }) => {
       if (type === 'BLUE') return blues !== index || reds !== index;
       return blues !== index + 1 || reds !== index;
     }
-  }, [currentPhase, blueBannedChampions, redBannedChampions])
+  }, [currentPhase, blueBannedChampions, redBannedChampions]);
+
+  const getCurrentPickDisability = useCallback((type: TEAM_TYPE, index: number) => {
+    if (currentPhase === 'BAN') return true;
+
+    const blues = bluePickedChampions.length;
+    const reds = redPickedChampions.length;
+    // 블루픽: (blues, reds) =>  0, 0 / 1, 2 / 3, 4
+    // 레드픽: (blues, reds) =>  1, 0 / 3, 2 / 3, 3 / 5, 4
+    //TODO: glow animation bug with disability check.
+
+    if (type === 'BLUE') {
+      if (index === blues && blues === 0) return false;
+      return index !== blues || reds !== blues + 1;
+    } else {
+      if (index === reds && reds === 3) return false;
+      return index !== reds || blues !== reds + 1;
+    }
+  }, [currentPhase, bluePickedChampions, redPickedChampions]);
 
   const getBannedChampions = useCallback((bannedArr: (ChampionType | null)[], type: TEAM_TYPE, index: number) => {
     const n = bannedArr.length;
@@ -95,6 +141,15 @@ const Draft = ({ ...props }) => {
 
     if (index > n) return '';
     return bannedArr[index]?.image.full;
+  }, [selectedChampion]);
+
+  const getPickedChampions = useCallback((pickedArr: (ChampionType | null)[], type: TEAM_TYPE, index: number) => {
+    const n = pickedArr.length;
+    if (!getCurrentPickDisability(type, index)) {
+      return selectedChampion === null ? '' : selectedChampion.id;
+    }
+    if (index > n) return '';
+    return pickedArr[index]?.id;
   }, [selectedChampion]);
 
   const getLOLBanPortrait = useCallback((type: TEAM_TYPE, index: number) => {
@@ -109,17 +164,35 @@ const Draft = ({ ...props }) => {
   }, [selectedChampion, blueBannedChampions, redBannedChampions]);
 
   const getLOLPickPortrait = useCallback((type: TEAM_TYPE, index: number) => {
-
-  }, []);
+    switch(type) {
+      case 'BLUE':
+        return getPickedChampions(bluePickedChampions, type, index);
+      case 'RED':
+        return getPickedChampions(redPickedChampions, type, index);
+      default:
+        return '';
+    }
+  }, [selectedChampion, bluePickedChampions, redPickedChampions]);
 
   useEffect(() => {
-    const blues = blueBannedChampions.length;
-    const reds = redBannedChampions.length;
+    const banBlues = blueBannedChampions.length;
+    const banReds = redBannedChampions.length;
+    const pickBlues = bluePickedChampions.length;
+    const pickReds = redPickedChampions.length;
 
-    if (blues === 3 && reds === 3) {
-      setCurrentPhase('PICK');
+    if (banBlues === 3 && banReds === 3) {
+      if (pickBlues === 3 && pickReds === 3) {
+        setCurrentPhase('BAN');
+      } else {
+        setCurrentPhase('PICK');
+      }
     }
-  }, [blueBannedChampions, redBannedChampions]);
+  }, [
+    blueBannedChampions.length,
+    redBannedChampions.length,
+    bluePickedChampions.length,
+    redPickedChampions.length
+  ]);
 
   return (
     <div className={'flex flex-col relative mt-8 no-scroll'}>
@@ -153,6 +226,7 @@ const Draft = ({ ...props }) => {
                   blueTeam
                   image={getLOLBanPortrait('BLUE', i)}
                   disabled={getCurrentBanDisability('BLUE', i)}
+                  key={`blue_banned+${i}`}
                 />
               ))
             }
@@ -165,6 +239,7 @@ const Draft = ({ ...props }) => {
                   blueTeam={false}
                   image={getLOLBanPortrait('RED', i)}
                   disabled={getCurrentBanDisability('RED', i)}
+                  key={`red_banned+${i}`}
                 />
               ))
             }
@@ -172,18 +247,30 @@ const Draft = ({ ...props }) => {
         </section>
         <section className={'flex justify-between'}>
           <div className={'flex flex-1 bg-[#111110] border-t-2 border-lolYellow h-[180px]'}>
-            <PlayerPick image={'Garen'} disabled={false} lane={'TOP'} isBlue />
-            <PlayerPick disabled={true} lane={'JUG'} isBlue />
-            <PlayerPick disabled={true} lane={'MID'} isBlue />
-            <PlayerPick disabled={true} lane={'BOT'} isBlue />
-            <PlayerPick disabled={true} lane={'SUP'} isBlue />
+            {
+              Array.from({ length: 5 }, (_, i) => (
+                <PlayerPick
+                  disabled={getCurrentPickDisability('BLUE', i)}
+                  lane={PICK_ORDER[i]}
+                  image={getLOLPickPortrait('BLUE', i)}
+                  isBlue
+                  key={`blue_picked+${i}`}
+                />
+              ))
+            }
           </div>
           <div className={'flex flex-1 justify-end bg-[#111110] border-t-2 border-lolYellow h-[180px]'}>
-            <PlayerPick disabled={true} lane={'TOP'} isBlue={false} />
-            <PlayerPick disabled={true} lane={'JUG'} isBlue={false} />
-            <PlayerPick disabled={true} lane={'MID'} isBlue={false} />
-            <PlayerPick disabled={true} lane={'BOT'} isBlue={false} />
-            <PlayerPick disabled={true} lane={'SUP'} isBlue={false} />
+            {
+              Array.from({ length: 5 }, (_, i) => (
+                <PlayerPick
+                  disabled={getCurrentPickDisability('RED', i)}
+                  lane={PICK_ORDER[i]}
+                  image={getLOLPickPortrait('RED', i)}
+                  isBlue={false}
+                  key={`red_picked+${i}`}
+                />
+              ))
+            }
           </div>
         </section>
       </article>
