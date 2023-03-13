@@ -10,8 +10,8 @@ import PlayerBan from '../components/BanPick/PlayerBan';
 import { ChampionsByTeam, ChampionType, TEAM_TYPE } from '../type/type';
 import Button from '../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootStoredStateType } from '../store/reducers/RootReducer';
-import { addBlue, addRed } from '../store/reducers/Banned';
+import { RootState, RootStoredStateType } from '../store/reducers/RootReducer';
+import { addBanBlue, addBanRed } from '../store/reducers/Banned';
 
 type DraftPhase = 'BAN' | 'PICK';
 
@@ -22,7 +22,7 @@ const Draft = ({ ...props }) => {
   const { data: ltsPatch } = props;
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
   const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
-  const { blue: blueBannedChampions, red: redBannedChampions } = useSelector<RootStoredStateType, ChampionsByTeam>((state) => state.banned);
+  const { blue: blueBannedChampions, red: redBannedChampions } = useSelector<RootState, ChampionsByTeam>((state) => state.banned);
   const [mp3Files] = useMp3Loader();
 
   const phaseUIText = useMemo(() => {
@@ -45,10 +45,10 @@ const Draft = ({ ...props }) => {
     if (currentPhase === 'BAN') {
       switch (team) {
         case 'BLUE':
-          dispatch(addBlue(selectedChampion));
+          dispatch(addBanBlue(selectedChampion));
           break;
         case 'RED':
-          dispatch(addRed(selectedChampion));
+          dispatch(addBanRed(selectedChampion));
       }
     } else if (currentPhase === 'PICK') {
 
@@ -172,7 +172,7 @@ const Draft = ({ ...props }) => {
         </section>
         <section className={'flex justify-between'}>
           <div className={'flex flex-1 bg-[#111110] border-t-2 border-lolYellow h-[180px]'}>
-            <PlayerPick image={'Aatrox'} disabled={false} lane={'TOP'} isBlue />
+            <PlayerPick image={'Garen'} disabled={false} lane={'TOP'} isBlue />
             <PlayerPick disabled={true} lane={'JUG'} isBlue />
             <PlayerPick disabled={true} lane={'MID'} isBlue />
             <PlayerPick disabled={true} lane={'BOT'} isBlue />

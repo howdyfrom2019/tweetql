@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ChampionsByTeam, ChampionType } from '../../type/type';
 
-const BannedSlice = createSlice({
-  name: 'bans',
+const PickedSlice = createSlice({
+  name: 'picks',
   initialState: { blue: [], red: [] } as ChampionsByTeam,
   reducers: {
-    addBanBlue: (state, action: PayloadAction<ChampionType | null>) => {
+    addPickBlue: (state, action: PayloadAction<ChampionType | null>) => {
       state.blue.push(action.payload)
     },
-    addBanRed: (state, action: PayloadAction<ChampionType | null>) => {
+    addPickRed: (state, action: PayloadAction<ChampionType | null>) => {
       state.red.push(action.payload)
     },
   }
 });
 
-const { actions, reducer } = BannedSlice;
+const { actions, reducer } = PickedSlice;
 
-export const { addBanBlue, addBanRed } = actions;
+export const { addPickBlue, addPickRed } = actions;
 
 export default reducer;
