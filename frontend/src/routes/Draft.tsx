@@ -10,7 +10,7 @@ import PlayerBan from '../components/BanPick/PlayerBan';
 import { ChampionsByTeam, ChampionType, LANE_TYPE, TEAM_TYPE } from '../type/type';
 import Button from '../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, RootStoredStateType } from '../store/reducers/RootReducer';
+import { RootState } from '../store/reducers/RootReducer';
 import { addBanBlue, addBanRed } from '../store/reducers/Banned';
 import { addPickBlue, addPickRed } from '../store/reducers/Picked';
 

@@ -1,43 +1,32 @@
-import React, { useCallback, useReducer } from 'react';
-import { ChampionFilterType, LANE_TYPE, ORDER_TYPE } from '../../type/type';
+import React, { useCallback, useEffect } from 'react';
+import { LANE_TYPE, ORDER_TYPE } from '../../type/type';
 import LaneNavigator from '../LaneNavigator/LaneNavigator';
 import Selector from '../Selector/Selector';
 import Input from '../Input/Input';
-
-type CHAMPION_FILTER_ACTION =
-  | { type: 'LANE', val: LANE_TYPE }
-  | { type: 'ORDER', val: ORDER_TYPE }
-  | { type: 'QUERY', val: string }
-
-const filterReducer = (state: ChampionFilterType, action: CHAMPION_FILTER_ACTION): ChampionFilterType => {
-  switch(action.type) {
-    case 'LANE':
-      return {
-        ...state,
-        lane: action.val
-      }
-    case 'ORDER':
-      return {
-        ...state,
-        order: action.val
-      }
-    case 'QUERY':
-      return {
-        ...state,
-        query: action.val
-      }
-  }
-}
+import { useDispatch } from 'react-redux';
+import { changeLane, changeOrder, changeQuery, clear } from '../../store/reducers/ChampionFilter';
 
 const ChampionHandler = () => {
-  const [championFilter, dispatch] = useReducer(filterReducer, { lane: 'ALL', order: 'NAME', query: '' });
+  const dispatch = useDispatch();
+
   const onChangeLaneFilter = useCallback((val: LANE_TYPE) => {
-    dispatch({ type: 'LANE', val: val });
+    dispatch(changeLane(val));
   }, []);
 
   const onChangeSortFilter = useCallback((val?: ORDER_TYPE) => {
     if (!val) return;
-    dispatch({ type: 'ORDER', val: val });
+    dispatch(changeOrder(val));
+  }, []);
+
+  const onChangeQueryFilter = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    dispatch(changeQuery(e.target.value));
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clear());
+    }
   }, []);
 
   return (
@@ -57,7 +46,7 @@ const ChampionHandler = () => {
           initId={0}
           callback={(item) => onChangeSortFilter(item.customData)}
         />
-        <Input className={'flex-1'} showSearchIcon />
+        <Input className={'flex-1'} showSearchIcon onChange={onChangeQueryFilter} />
       </section>
     </header>
   )
