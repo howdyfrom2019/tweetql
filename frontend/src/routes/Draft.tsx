@@ -120,17 +120,12 @@ const Draft = ({ ...props }) => {
 
     const blues = bluePickedChampions.length;
     const reds = redPickedChampions.length;
-    // 블루픽: (blues, reds) =>  0, 0 / 1, 2 / 3, 4
-    // 레드픽: (blues, reds) =>  1, 0 / 3, 2 / 3, 3 / 5, 4
-    //TODO: glow animation bug with disability check.
+    // 블루픽: (blues, reds) =>  0, 0 / 1, 2 / 2, 2 / 3, 4 / 4, 4
+    // 레드픽: (blues, reds) =>  1, 0 / 1, 1 / 3, 2 / 3, 3 / 5, 4
+    const query = `${blues}${reds}`;
 
-    if (type === 'BLUE') {
-      if (index === blues && blues === 0) return false;
-      return index !== blues || reds !== blues + 1;
-    } else {
-      if (index === reds && reds === 3) return false;
-      return index !== reds || blues !== reds + 1;
-    }
+    if (type === 'BLUE') return !(index === blues && ['00', '12', '22', '34', '44'].includes(query));
+    else return !(index === reds && ['10', '11', '32', '33', '52'].includes(query));
   }, [currentPhase, bluePickedChampions, redPickedChampions]);
 
   const getBannedChampions = useCallback((bannedArr: (ChampionType | null)[], type: TEAM_TYPE, index: number) => {
