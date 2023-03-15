@@ -125,7 +125,7 @@ const Draft = ({ ...props }) => {
     const query = `${blues}${reds}`;
 
     if (type === 'BLUE') return !(index === blues && ['00', '12', '22', '34', '44'].includes(query));
-    else return !(index === reds && ['10', '11', '32', '33', '52'].includes(query));
+    else return !(index === reds && ['10', '11', '32', '33', '54'].includes(query));
   }, [currentPhase, bluePickedChampions, redPickedChampions]);
 
   const getBannedChampions = useCallback((bannedArr: (ChampionType | null)[], type: TEAM_TYPE, index: number) => {
@@ -181,6 +181,8 @@ const Draft = ({ ...props }) => {
       } else {
         setCurrentPhase('PICK');
       }
+    } else if (banBlues === 5 && banReds === 5) {
+      setCurrentPhase('PICK');
     }
   }, [
     blueBannedChampions.length,
