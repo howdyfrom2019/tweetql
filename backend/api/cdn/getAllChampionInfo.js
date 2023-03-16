@@ -4,10 +4,10 @@ export default async function getAllChampionInfo(version) {
   const rowData = await fetch(`https://ddragon.leagueoflegends.com/cdn/${version}/data/ko_KR/champion.json`, {
     method: "GET",
     headers: {
-      "Content-Type": 'application/json'
+      "Content-Type": 'application/json',
     },
     credentials: 'same-origin',
-    mode: 'cors'
+    mode: 'cors',
   });
 
   const { data } = await rowData.json();
@@ -17,6 +17,6 @@ export default async function getAllChampionInfo(version) {
     const index = Number(key);
     dataWithChampionId[index] = { key, ...props };
   }
-  // console.log(dataWithChampionId);
-  return dataWithChampionId;
+
+  return dataWithChampionId.filter(Boolean);
 }

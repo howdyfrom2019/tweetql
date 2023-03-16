@@ -33,7 +33,6 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
   const bannedChampionId = useMemo(() => blueBannedChampions.concat(redBannedChampions).map((champion) => champion?.id), [blueBannedChampions, redBannedChampions]);
   const pickedChampionId = useMemo(() => bluePickedChampions.concat(redPickedChampions).map((champion) => champion?.id), [bluePickedChampions, redPickedChampions]);
 
-  console.log(order, lane, query, championData);
   return (
     <div className={'relative'}>
       <Scrollbars
@@ -44,7 +43,6 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
         {
           (!championLoading && championData && championData.allChampion)
           && championData.allChampion
-            .filter(Boolean)
             .filter(({ id, blurb }) => id.includes(query) || blurb.includes(query))
             .map((champion) => (
               <PickPortrait
