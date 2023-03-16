@@ -20,6 +20,7 @@ export const ALL_CHAMPIONS = gql`
   query allChampion($version: String!) {
       allChampion(version: $version) {
           id
+          name
           key
           version
           title

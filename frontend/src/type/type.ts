@@ -94,6 +94,7 @@ interface ChampionSpellType {
 export interface ChampionType {
   version: string;
   id: string;
+  name: string;
   key: number;
   title: string;
   blurb: string;

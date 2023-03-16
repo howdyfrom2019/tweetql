@@ -113,6 +113,7 @@ export const SummonerType = gql`
   type ChampionInfo {
       version: String!
       id: ID!
+      name: ID!
       key: Int!
       title: String!
       blurb: String!

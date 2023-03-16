@@ -30,8 +30,39 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
     red: redPickedChampions,
   } = useSelector<RootState, ChampionsByTeam>((state) => state.picked);
   const { order, lane, query } = useSelector<RootState, ChampionFilterType>((state) => state.championFilter);
+
   const bannedChampionId = useMemo(() => blueBannedChampions.concat(redBannedChampions).map((champion) => champion?.id), [blueBannedChampions, redBannedChampions]);
   const pickedChampionId = useMemo(() => bluePickedChampions.concat(redPickedChampions).map((champion) => champion?.id), [bluePickedChampions, redPickedChampions]);
+  const champions = useMemo<ChampionType[]>(() => {
+    if (!championData || !championData.allChampion || championLoading) return [];
+    const laneFilteredChamp = lane === 'ALL' ?
+      championData.allChampion
+      : (
+        championData.allChampion.filter(({ tags }) => {
+          switch(lane) {
+            case 'TOP':
+              const top = ['Fighter', 'Tank'];
+              return tags.some(v => top.includes(v));
+            case 'JUG':
+              return tags.includes('Fighter');
+            case 'MID':
+              const mid = ['Mage', 'Assassin'];
+              return tags.some(v => mid.includes(v));
+            case 'BOT':
+              return tags.includes('Marksman');
+            case 'SUP':
+              return tags.includes('Support');
+          }
+        })
+      );
+    if (query.length === 0) {
+      return laneFilteredChamp;
+    } else {
+      return laneFilteredChamp.filter(({ id, name, blurb }) => id.includes(query) || blurb.includes(query) || name.includes(query));
+    }
+  }, [championData, championLoading, lane, query]);
+
+  console.log(champions);
 
   return (
     <div className={'relative'}>
@@ -41,10 +72,7 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
         renderView={(props) => <div className={'absolute inset-0 overflow-scroll flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} {...props} />}
       >
         {
-          (!championLoading && championData && championData.allChampion)
-          && championData.allChampion
-            .filter(({ id, blurb }) => id.includes(query) || blurb.includes(query))
-            .map((champion) => (
+          champions.map((champion) => (
               <PickPortrait
                 champion={champion}
                 src={`https://ddragon.leagueoflegends.com/cdn/${data || '13.3.1'}/img/champion/${champion.image.full}`}

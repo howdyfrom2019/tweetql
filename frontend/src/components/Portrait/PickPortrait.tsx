@@ -27,7 +27,7 @@ const PickPortrait: React.FC<PortraitProps> = ({ src, champion, callback, disabl
 
         }
       </figure>
-      <figcaption className={'text-lolYellow'}>{champion.id}</figcaption>
+      <figcaption className={'font-medium text-[14px] text-center text-lolYellow'}>{champion.name}</figcaption>
     </div>
   )
 }
