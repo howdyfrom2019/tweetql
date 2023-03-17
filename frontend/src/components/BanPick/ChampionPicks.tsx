@@ -58,7 +58,7 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
     if (query.length === 0) {
       return laneFilteredChamp;
     } else {
-      return laneFilteredChamp.filter(({ id, name, blurb }) => id.includes(query) || blurb.includes(query) || name.includes(query));
+      return laneFilteredChamp.filter(({ id, name, blurb }) => id.toLowerCase().includes(query) || name.includes(query));
     }
   }, [championData, championLoading, lane, query]);
 

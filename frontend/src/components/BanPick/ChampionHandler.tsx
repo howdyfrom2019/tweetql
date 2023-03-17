@@ -20,7 +20,7 @@ const ChampionHandler = () => {
 
   const onChangeQueryFilter = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    dispatch(changeQuery(e.target.value));
+    dispatch(changeQuery(e.target.value.toLowerCase()));
   }, []);
 
   useEffect(() => {
