@@ -4,7 +4,11 @@
     "outDir": "./dist",
     "sourceMap": true,
     "noImplicitAny": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "module": "ESNext",
@@ -12,15 +16,22 @@
     "strict": true,
     "resolveJsonModule": true,
     "target": "es5",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "isolatedModules": true,
     "esModuleInterop": true,
     "baseUrl": ".",
-//    "paths": {
-//      "@/*": ["src/*"]
-//    }
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true
+    //    "paths": {
+    //      "@/*": ["src/*"]
+    //    }
   },
-  "include": ["./src/**/*", "webpack.config.ts", "custom.d.ts"],
+  "include": [
+    "./src/**/*",
+    "webpack.config.ts",
+    "custom.d.ts"
+  ],
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs",
@@ -28,5 +39,8 @@
       "target": "ES5",
       "esModuleInterop": true
     }
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -128,7 +128,7 @@ export interface ChampionSpecificType {
 export interface DataState<T> {
   loading: boolean;
   error?: ApolloError;
-  data?: T
+  data?: T;
 }
 
 export interface ChampionsByTeam {

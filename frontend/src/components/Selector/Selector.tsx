@@ -16,11 +16,11 @@ interface SelectorProps<T> {
 
 const BASIC_STYlE = 'px-4 py-2 w-40 text-lolYellow border border-lolYellow bg-section';
 
-const Selector =  <T extends unknown>(props: SelectorProps<T>) => {
+const Selector = <T extends unknown>(props: SelectorProps<T>) => {
   const { categories, initId, placeholder, customSelectorItemStyle, callback } = props;
   const [selectedCategory, setSelectedCategory] = useState<CategoryProps<T>>({ id: -1, content: '' });
   const [openList, setOpenList] = useState(false);
-  const SELECTOR_ITEM_STYLE = useMemo(() => customSelectorItemStyle ? customSelectorItemStyle : BASIC_STYlE,[customSelectorItemStyle])
+  const SELECTOR_ITEM_STYLE = useMemo(() => customSelectorItemStyle ? customSelectorItemStyle : BASIC_STYlE, [customSelectorItemStyle]);
 
   const init = useCallback((id: number) => {
     if (placeholder) {
@@ -71,7 +71,7 @@ const Selector =  <T extends unknown>(props: SelectorProps<T>) => {
         </div>
       </button>
     </>
-  )
-}
+  );
+};
 
 export default Selector;

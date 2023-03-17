@@ -13,7 +13,7 @@ interface Configuration extends WebpackConfiguration {
 const isDev = process.env.NODE_ENV !== 'production';
 
 const config: Configuration = {
-  name: 'MusicQL',
+  name: 'Russel.GG',
   mode: isDev ? 'development' : 'production',
   devtool: isDev ? 'hidden-source-map' : 'inline-source-map',
   resolve: {
@@ -23,7 +23,7 @@ const config: Configuration = {
     // },
   },
   entry: {
-    app: './src/Index',
+    app: './src/_app',
   },
   module: {
     rules: [

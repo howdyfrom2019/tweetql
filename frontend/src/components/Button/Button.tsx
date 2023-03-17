@@ -9,7 +9,7 @@ const Button = ({ children, ...props }: ButtonProps) => {
     <button className={'p-4 rounded-full border-lolYellow border bg-section text-lolYellow min-w-[210px]'} {...props}>
       {children}
     </button>
-  )
-}
+  );
+};
 
 export default Button;

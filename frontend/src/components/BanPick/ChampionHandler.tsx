@@ -26,7 +26,7 @@ const ChampionHandler = () => {
   useEffect(() => {
     return () => {
       dispatch(clear());
-    }
+    };
   }, []);
 
   return (
@@ -49,7 +49,7 @@ const ChampionHandler = () => {
         <Input className={'flex-1'} showSearchIcon onChange={onChangeQueryFilter} />
       </section>
     </header>
-  )
-}
+  );
+};
 
 export default ChampionHandler;
