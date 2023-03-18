@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
-import { LANE_TYPE, ORDER_TYPE } from '../../type/type';
-import LaneNavigator from '../LaneNavigator/LaneNavigator';
-import Selector from '../Selector/Selector';
-import Input from '../Input/Input';
+import { LANE_TYPE, ORDER_TYPE } from '@/type/type';
+import LaneNavigator from '@/components/LaneNavigator/LaneNavigator';
+import Selector from '@/components/Selector/Selector';
+import Input from '@/components/Input/Input';
 import { useDispatch } from 'react-redux';
-import { changeLane, changeOrder, changeQuery, clear } from '../../store/reducers/ChampionFilter';
+import { changeLane, changeOrder, changeQuery, clear } from '@/store/reducers/ChampionFilter';
 
 const ChampionHandler = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const ChampionHandler = () => {
   useEffect(() => {
     return () => {
       dispatch(clear());
-    }
+    };
   }, []);
 
   return (
@@ -49,7 +49,7 @@ const ChampionHandler = () => {
         <Input className={'flex-1'} showSearchIcon onChange={onChangeQueryFilter} />
       </section>
     </header>
-  )
-}
+  );
+};
 
 export default ChampionHandler;

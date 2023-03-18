@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { ReactComponent as Random } from '../../assets/random.svg';
-import { ChampionType } from '../../type/type';
+import { ChampionType } from '@/type/type';
 
 interface PortraitProps {
   champion: ChampionType;
@@ -8,6 +8,7 @@ interface PortraitProps {
   callback?: (champion: ChampionType) => void;
   disabled?: boolean;
 }
+
 const PickPortrait: React.FC<PortraitProps> = ({ src, champion, callback, disabled }) => {
   const onClickChampionCallback = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -16,7 +17,8 @@ const PickPortrait: React.FC<PortraitProps> = ({ src, champion, callback, disabl
 
   return (
     <div className={'flex flex-col w-[88px] h-[120px] items-center justify-between'} onClick={onClickChampionCallback}>
-      <figure className={`relative border border-lolGreen relative bg-[#00070f] w-[88px] h-[88px] ${disabled ? 'opacity-30' : 'cursor-pointer'}`}>
+      <figure
+        className={`relative border border-lolGreen relative bg-[#00070f] w-[88px] h-[88px] ${disabled ? 'opacity-30' : 'cursor-pointer'}`}>
         {
           !Boolean(src) ?
             <Random className={'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'} /> :
@@ -29,7 +31,7 @@ const PickPortrait: React.FC<PortraitProps> = ({ src, champion, callback, disabl
       </figure>
       <figcaption className={'font-medium text-[14px] text-center text-lolYellow'}>{champion.name}</figcaption>
     </div>
-  )
-}
+  );
+};
 
 export default PickPortrait;

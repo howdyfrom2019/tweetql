@@ -26,7 +26,7 @@ const LaneNavigator: React.FC<LaneProps> = ({ callback }) => {
 
   useEffect(() => {
     if (!callback) return;
-    switch(cursor) {
+    switch (cursor) {
       case 0:
         callback('TOP');
         break;
@@ -55,7 +55,7 @@ const LaneNavigator: React.FC<LaneProps> = ({ callback }) => {
       <BotIcon className={`${getOpacityWithCursor(3)} cursor-pointer`} onClick={(e) => onChangeCursorHandler(e, 3)} />
       <SupIcon className={`${getOpacityWithCursor(4)} cursor-pointer`} onClick={(e) => onChangeCursorHandler(e, 4)} />
     </section>
-  )
-}
+  );
+};
 
 export default LaneNavigator;

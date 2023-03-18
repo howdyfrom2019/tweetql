@@ -9,7 +9,7 @@ export interface WithSelectedVersionProps {
 
 const withLatestVersion = <P extends WithSelectedVersionProps>(Component: React.ComponentType<P>) => {
 
-  return function ComponentWithVersion(props : Omit<P, keyof WithSelectedVersionProps>) {
+  return function ComponentWithVersion(props: Omit<P, keyof WithSelectedVersionProps>) {
     const { data, error, loading } = useQuery<LtsVersionType>(LOL_PATCH_VERSIONS);
     const [result, setResult] = useState<DataState<string> | null>(null);
     console.debug(data, error, loading);
@@ -19,7 +19,7 @@ const withLatestVersion = <P extends WithSelectedVersionProps>(Component: React.
     }, [data, error, loading]);
 
     return <Component {...result} {...props as P} />;
-  }
-}
+  };
+};
 
 export default withLatestVersion;

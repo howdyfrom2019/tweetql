@@ -4,7 +4,11 @@
     "outDir": "./dist",
     "sourceMap": true,
     "noImplicitAny": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "module": "ESNext",
@@ -12,15 +16,32 @@
     "strict": true,
     "resolveJsonModule": true,
     "target": "es5",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "isolatedModules": true,
     "esModuleInterop": true,
     "baseUrl": ".",
-//    "paths": {
-//      "@/*": ["src/*"]
-//    }
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@/assets/*": ["src/assets/*"],
+      "@/components/*": ["src/components/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/store/*": ["src/store/*"],
+      "@/type/*": ["src/type/*"],
+      "@/utils/*": ["src/utils/*"],
+    }
   },
-  "include": ["./src/**/*", "webpack.config.ts", "custom.d.ts"],
+  "include": [
+    "src",
+    "public",
+    "custom.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next.config.js"
+  ],
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs",
@@ -28,5 +49,8 @@
       "target": "ES5",
       "esModuleInterop": true
     }
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

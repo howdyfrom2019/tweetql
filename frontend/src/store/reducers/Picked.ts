@@ -6,12 +6,12 @@ const PickedSlice = createSlice({
   initialState: { blue: [], red: [] } as ChampionsByTeam,
   reducers: {
     addPickBlue: (state, action: PayloadAction<ChampionType | null>) => {
-      state.blue.push(action.payload)
+      state.blue.push(action.payload);
     },
     addPickRed: (state, action: PayloadAction<ChampionType | null>) => {
-      state.red.push(action.payload)
+      state.red.push(action.payload);
     },
-  }
+  },
 });
 
 const { actions, reducer } = PickedSlice;

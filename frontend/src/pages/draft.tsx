@@ -5,14 +5,14 @@ import ChampionPicks from '../components/BanPick/ChampionPicks';
 import ChampionHandler from '../components/BanPick/ChampionHandler';
 import MusicPlayer, { PlayListProps } from '../components/MusicPlayer/MusicPlayer';
 import Selector from '../components/Selector/Selector';
-import { useMp3Loader } from '../hooks/useMp3Loader';
+import { useMp3Loader } from '@/hooks/useMp3Loader';
 import PlayerBan from '../components/BanPick/PlayerBan';
-import { ChampionsByTeam, ChampionType, LANE_TYPE, TEAM_TYPE } from '../type/type';
+import { ChampionsByTeam, ChampionType, LANE_TYPE, TEAM_TYPE } from '@/type/type';
 import Button from '../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/reducers/RootReducer';
-import { addBanBlue, addBanRed } from '../store/reducers/Banned';
-import { addPickBlue, addPickRed } from '../store/reducers/Picked';
+import { RootState } from '@/store/reducers/RootReducer';
+import { addBanBlue, addBanRed } from '@/store/reducers/Banned';
+import { addPickBlue, addPickRed } from '@/store/reducers/Picked';
 
 type DraftPhase = 'BAN' | 'PICK';
 
@@ -24,8 +24,14 @@ const Draft = ({ ...props }) => {
   const { data: ltsPatch } = props;
   const [currentPhase, setCurrentPhase] = useState<DraftPhase>('BAN');
   const [selectedChampion, setSelectedChampion] = useState<ChampionType | null>(null);
-  const { blue: blueBannedChampions, red: redBannedChampions } = useSelector<RootState, ChampionsByTeam>((state) => state.banned);
-  const { blue: bluePickedChampions, red: redPickedChampions } = useSelector<RootState, ChampionsByTeam>((state) => state.picked);
+  const {
+    blue: blueBannedChampions,
+    red: redBannedChampions,
+  } = useSelector<RootState, ChampionsByTeam>((state) => state.banned);
+  const {
+    blue: bluePickedChampions,
+    red: redPickedChampions,
+  } = useSelector<RootState, ChampionsByTeam>((state) => state.picked);
   const [mp3Files] = useMp3Loader();
 
   const phaseUIText = useMemo(() => {
@@ -159,7 +165,7 @@ const Draft = ({ ...props }) => {
   }, [selectedChampion, blueBannedChampions, redBannedChampions]);
 
   const getLOLPickPortrait = useCallback((type: TEAM_TYPE, index: number) => {
-    switch(type) {
+    switch (type) {
       case 'BLUE':
         return getPickedChampions(bluePickedChampions, type, index);
       case 'RED':
@@ -188,7 +194,7 @@ const Draft = ({ ...props }) => {
     blueBannedChampions.length,
     redBannedChampions.length,
     bluePickedChampions.length,
-    redPickedChampions.length
+    redPickedChampions.length,
   ]);
 
   return (

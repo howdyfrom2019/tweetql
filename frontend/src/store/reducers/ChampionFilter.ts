@@ -7,7 +7,7 @@ const ChampionFilter = createSlice({
   name: 'champion/filtered',
   initialState: INITIAL_STATE,
   reducers: {
-    changeLane: (state, action) =>  {
+    changeLane: (state, action) => {
       state.lane = action.payload;
     },
     changeOrder: (state, action) => {
@@ -16,8 +16,8 @@ const ChampionFilter = createSlice({
     changeQuery: (state, action) => {
       state.query = action.payload;
     },
-    clear: () => INITIAL_STATE
-  }
+    clear: () => INITIAL_STATE,
+  },
 });
 
 const { actions, reducer } = ChampionFilter;

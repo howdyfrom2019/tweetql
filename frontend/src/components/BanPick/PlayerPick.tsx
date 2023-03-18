@@ -13,17 +13,17 @@ import Support_Red from '../../assets/support.svg';
 
 interface PlayerPickProps {
   disabled: boolean;
-  image?: string
+  image?: string;
   lane: LANE_TYPE;
   playerName?: string;
   isBlue: boolean;
 }
 
-const PlayerPick = ({ disabled, image, lane, playerName, isBlue } : PlayerPickProps) => {
+const PlayerPick = ({ disabled, image, lane, playerName, isBlue }: PlayerPickProps) => {
   const [path, setPath] = useState('');
   const src = useMemo(() => `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${image}_0.jpg`, [image]);
 
-  const initIcon = useCallback(async() => {
+  const initIcon = useCallback(async () => {
     switch (lane) {
       case 'TOP':
         setPath(isBlue ? Top : Top_Red);
@@ -50,13 +50,16 @@ const PlayerPick = ({ disabled, image, lane, playerName, isBlue } : PlayerPickPr
   }, []);
 
   return (
-    <div className={`relative flex flex-col justify-between border-r-2 border-[#20201e] w-[116px] px-2 py-6 overflow-hidden`}>
-      {image && <img src={src} className={'absolute top-0 left-0 w-full h-full object-cover scale-105'} alt={'loading_art'} />}
-      <span className={`absolute top-0 left-0 w-full h-full bg-200% ${disabled ? '' : 'bg-gradient-to-t animate-ban-select'} ${isBlue ? 'from-banRed' : 'from-banBlue'}`} />
+    <div
+      className={`relative flex flex-col justify-between border-r-2 border-[#20201e] w-[116px] px-2 py-6 overflow-hidden`}>
+      {image &&
+        <img src={src} className={'absolute top-0 left-0 w-full h-full object-cover scale-105'} alt={'loading_art'} />}
+      <span
+        className={`absolute top-0 left-0 w-full h-full bg-200% ${disabled ? '' : 'bg-gradient-to-t animate-ban-select'} ${isBlue ? 'from-banRed' : 'from-banBlue'}`} />
       {path}
       <span className={'font-regular-12 text-[#c7c7c7] z-10'}>{playerName ? playerName : lane}</span>
     </div>
-  )
-}
+  );
+};
 
 export default PlayerPick;

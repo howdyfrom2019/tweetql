@@ -30,7 +30,7 @@
 // ];
 //
 // const typeDefs = gql`
-//     type User {
+//     type Id {
 //         id: ID!
 //         username: String!
 //         nickname: String!
@@ -41,10 +41,10 @@
 //     type Tweet {
 //         id: ID!
 //         text: String!
-//         author: User
+//         author: Id
 //     }
 //     type Query {
-//         allUsers: [User!]!
+//         allUsers: [Id!]!
 //         allTweets: [Tweet!]!
 //         tweet(id: ID!): Tweet
 //         ping: String!
@@ -81,7 +81,7 @@
 //       return true;
 //     },
 //   },
-//   User: {
+//   Id: {
 //     nickname(root) {
 //       console.log(root);
 //       return "jake";

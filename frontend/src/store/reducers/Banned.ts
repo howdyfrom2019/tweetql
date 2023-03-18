@@ -6,12 +6,12 @@ const BannedSlice = createSlice({
   initialState: { blue: [], red: [] } as ChampionsByTeam,
   reducers: {
     addBanBlue: (state, action: PayloadAction<ChampionType | null>) => {
-      state.blue.push(action.payload)
+      state.blue.push(action.payload);
     },
     addBanRed: (state, action: PayloadAction<ChampionType | null>) => {
-      state.red.push(action.payload)
+      state.red.push(action.payload);
     },
-  }
+  },
 });
 
 const { actions, reducer } = BannedSlice;
