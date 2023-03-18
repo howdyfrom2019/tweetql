@@ -10,5 +10,11 @@
     "files": [
       "static/chunks/node_modules_next_dist_pages__error_js.js"
     ]
+  },
+  "..\\hooks\\useMp3Loader.ts -> ../assets/music/1.mp3": {
+    "id": "..\\hooks\\useMp3Loader.ts -> ../assets/music/1.mp3",
+    "files": [
+      "static/chunks/src_assets_music_1_mp3.js"
+    ]
   }
 }

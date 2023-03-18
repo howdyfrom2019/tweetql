@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { ReactComponent as Random } from '../../assets/random.svg';
-import { ChampionType } from '../../type/type';
+import { ChampionType } from '@/type/type';
 
 interface PortraitProps {
   champion: ChampionType;
