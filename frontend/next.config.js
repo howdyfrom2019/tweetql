@@ -11,7 +11,15 @@ module.exports = {
     });
     config.module.rules.push({
       test: /\.(mp3|ogg)$/i,
-      loader: 'file-loader'
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/sounds',
+          outputPath: 'static/sounds',
+          name: '[name].[ext]',
+          esModule: false,
+        },
+      }
     })
     return config;
   }

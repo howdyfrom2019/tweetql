@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ChampionsByTeam, ChampionType } from '../../type/type';
+import { ChampionsByTeam, ChampionType } from '@/type/type';
 
 const PickedSlice = createSlice({
   name: 'picks',
