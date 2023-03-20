@@ -6,7 +6,7 @@ export const useMp3Loader = (): [resources: string[]] => {
   const syncImporters = useCallback(() => {
     const promises: Promise<typeof import('*.mp3')>[] = [];
     for (let i = 0; i < 1; i++) {
-      promises.push(import('../assets/music/1.mp3'));
+      promises.push(import('@/assets/music/1.mp3'));
     }
 
     Promise.all(promises).then((values) => {

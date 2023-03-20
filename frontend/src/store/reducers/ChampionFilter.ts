@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ChampionFilterType } from '../../type/type';
+import { ChampionFilterType } from '@/type/type';
 
 const INITIAL_STATE: ChampionFilterType = { order: 'NAME', lane: 'ALL', query: '' };
 

@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import Link from 'next/link';
-import ChampionSideBar from '../components/SideBar/ChampionSideBar';
-import { ChampionType } from '../type/type';
-import Button from '../components/Button/Button';
-import ChampionPicks from '../components/BanPick/ChampionPicks';
-import ChampionHandler from '../components/BanPick/ChampionHandler';
+import ChampionSideBar from '@/components/SideBar/ChampionSideBar';
+import { ChampionType } from '@/type/type';
+import Button from '@/components/Button/Button';
+import ChampionPicks from '@/components/BanPick/ChampionPicks';
+import ChampionHandler from '@/components/BanPick/ChampionHandler';
 import { useRouter } from 'next/router';
 
 const Champions = () => {

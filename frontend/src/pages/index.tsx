@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { ReactComponent as Logo } from '../assets/logo.svg';
-import Input from '../components/Input/Input';
+import Input from '@/components/Input/Input';
 import Link from 'next/link';
-import { SUMMONERS } from '../type/api';
+import { SUMMONERS } from '@/type/api';
 import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
-import { GetServerSideProps } from 'next';
-import { initializeApolloClient } from '../../client';
 
 const Index = () => {
   const router = useRouter();

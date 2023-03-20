@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import Banned from './Banned';
-import { ChampionFilterType, ChampionsByTeam } from '../../type/type';
-import Picked from './Picked';
-import ChampionFilter from './ChampionFilter';
+import Banned from '@/store/reducers/Banned';
+import { ChampionFilterType, ChampionsByTeam } from '@/type/type';
+import Picked from '@/store/reducers/Picked';
+import ChampionFilter from '@/store/reducers/ChampionFilter';
 
 export interface RootStoredStateType {
   banned: ChampionsByTeam;

@@ -5,14 +5,14 @@ import ChampionPicks from '../components/BanPick/ChampionPicks';
 import ChampionHandler from '../components/BanPick/ChampionHandler';
 import MusicPlayer, { PlayListProps } from '../components/MusicPlayer/MusicPlayer';
 import Selector from '../components/Selector/Selector';
-import { useMp3Loader } from '../hooks/useMp3Loader';
+import { useMp3Loader } from '@/hooks/useMp3Loader';
 import PlayerBan from '../components/BanPick/PlayerBan';
-import { ChampionsByTeam, ChampionType, LANE_TYPE, TEAM_TYPE } from '../type/type';
+import { ChampionsByTeam, ChampionType, LANE_TYPE, TEAM_TYPE } from '@/type/type';
 import Button from '../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/reducers/RootReducer';
-import { addBanBlue, addBanRed } from '../store/reducers/Banned';
-import { addPickBlue, addPickRed } from '../store/reducers/Picked';
+import { RootState } from '@/store/reducers/RootReducer';
+import { addBanBlue, addBanRed } from '@/store/reducers/Banned';
+import { addPickBlue, addPickRed } from '@/store/reducers/Picked';
 
 type DraftPhase = 'BAN' | 'PICK';
 

@@ -1,13 +1,14 @@
 import React, { useMemo } from 'react';
 import withLatestVersion, { WithSelectedVersionProps } from '../../utils/withSelectedVersion';
 import { useQuery } from '@apollo/client';
-import { ChampionFilterType, ChampionsByTeam, ChampionType, DataState } from '../../type/type';
-import { ALL_CHAMPIONS } from '../../type/api';
+import { ChampionFilterType, ChampionsByTeam, ChampionType, DataState } from '@/type/type';
+import { ALL_CHAMPIONS } from '@/type/api';
 import Scrollbars from 'react-custom-scrollbars-2';
 import PickPortrait from '../Portrait/PickPortrait';
-import DraftBG from '../../assets/draft_outline.png';
+import DraftBG from '@/assets/draft_outline.png';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/reducers/RootReducer';
+import { RootState } from '@/store/reducers/RootReducer';
+import Image from 'next/image';
 
 interface Props extends WithSelectedVersionProps {
   portraitHandler?: (champion: ChampionType) => void;
@@ -66,8 +67,6 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
     }
   }, [championData, championLoading, lane, query]);
 
-  console.log(champions);
-
   return (
     <div className={'relative'}>
       <Scrollbars
@@ -88,8 +87,8 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
           ))
         }
       </Scrollbars>
-      <img className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} />
-      <img className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} />
+      <Image className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} priority={false} />
+      <Image className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} priority={false} />
     </div>
   );
 };

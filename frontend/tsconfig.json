@@ -22,15 +22,25 @@
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true
-    //    "paths": {
-    //      "@/*": ["src/*"]
-    //    }
+    "incremental": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@/assets/*": ["src/assets/*"],
+      "@/components/*": ["src/components/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/store/*": ["src/store/*"],
+      "@/type/*": ["src/type/*"],
+      "@/utils/*": ["src/utils/*"],
+    }
   },
   "include": [
-    "./src/**/*",
-    "webpack.config.ts",
-    "custom.d.ts"
+    "src",
+    "public",
+    "custom.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next.config.js"
   ],
   "ts-node": {
     "compilerOptions": {
