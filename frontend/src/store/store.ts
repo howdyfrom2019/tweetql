@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducers/RootReducer';
+import rootReducer from '@/store/reducers/RootReducer';
 import { createWrapper } from 'next-redux-wrapper';
-import { Context } from 'next-redux-wrapper/lib';
 
 const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
-const makeStore = (context: Context) => store;
+const makeStore = () => store;
 
-const wrapper = createWrapper(makeStore, {
+const Wrapper = createWrapper(makeStore, {
   debug: process.env.NODE_ENV !== 'production',
 })
 
-export default wrapper;
+export default Wrapper;
