@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ChampionsByTeam, ChampionType } from '../../type/type';
+import { ChampionsByTeam, ChampionType } from '@/type/type';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const PickedSlice = createSlice({
   name: 'picks',
@@ -12,6 +13,14 @@ const PickedSlice = createSlice({
       state.red.push(action.payload);
     },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.picks,
+      };
+    },
+  }
 });
 
 const { actions, reducer } = PickedSlice;

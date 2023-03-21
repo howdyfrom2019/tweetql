@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ChampionFilterType } from '../../type/type';
+import { ChampionFilterType } from '@/type/type';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const INITIAL_STATE: ChampionFilterType = { order: 'NAME', lane: 'ALL', query: '' };
 
@@ -18,6 +19,14 @@ const ChampionFilter = createSlice({
     },
     clear: () => INITIAL_STATE,
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload[`champion/filtered`],
+      };
+    },
+  }
 });
 
 const { actions, reducer } = ChampionFilter;

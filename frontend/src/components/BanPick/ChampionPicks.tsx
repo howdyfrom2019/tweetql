@@ -67,8 +67,6 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
     }
   }, [championData, championLoading, lane, query]);
 
-  console.log(champions);
-
   return (
     <div className={'relative'}>
       <Scrollbars
@@ -89,8 +87,8 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
           ))
         }
       </Scrollbars>
-      <Image className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} />
-      <Image className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} />
+      <Image className={'absolute top-0 left-0 -translate-x-[90%]'} src={DraftBG} alt={'draft'} priority={false} />
+      <Image className={'rotate-180 absolute top-0 right-0 translate-x-[90%]'} src={DraftBG} alt={'draft'} priority={false} />
     </div>
   );
 };

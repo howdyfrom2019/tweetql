@@ -1,8 +1,8 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { ChampionSpecificType } from '../../../../type/type';
-import { ONE_CHAMPION } from '../../../../type/api';
+import { ChampionSpecificType } from '@/type/type';
+import { ONE_CHAMPION } from '@/type/api';
 
 const Version = () => {
   const router = useRouter();
