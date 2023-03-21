@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ChampionsByTeam, ChampionType } from '../../type/type';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const BannedSlice = createSlice({
   name: 'bans',
@@ -12,6 +13,14 @@ const BannedSlice = createSlice({
       state.red.push(action.payload);
     },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.bans,
+      };
+    },
+  }
 });
 
 const { actions, reducer } = BannedSlice;
