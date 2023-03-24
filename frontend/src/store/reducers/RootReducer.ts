@@ -1,9 +1,8 @@
-import { AnyAction, CombinedState, combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 import Banned from '@/store/reducers/Banned';
 import { ChampionFilterType, ChampionsByTeam } from '@/type/type';
 import Picked from '@/store/reducers/Picked';
 import ChampionFilter from '@/store/reducers/ChampionFilter';
-import { HYDRATE } from 'next-redux-wrapper';
 
 export interface RootStoredStateType {
   banned: ChampionsByTeam;

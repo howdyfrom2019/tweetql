@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ReactComponent as Logo } from '../../assets/logo.svg';
+import { ReactComponent as Logo } from '@/assets/logo.svg';
 import { useQuery } from '@apollo/client';
-import { LOL_PATCH_VERSIONS } from '../../type/api';
-import { LtsVersionType } from '../../type/type';
+import { LOL_PATCH_VERSIONS } from '@/type/api';
+import { LtsVersionType } from '@/type/type';
 import { ReactComponent as Poro } from '../../assets/poro_404.svg';
 
 interface ChampionSideBarType {

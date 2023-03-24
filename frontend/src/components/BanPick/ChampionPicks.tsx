@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import withLatestVersion, { WithSelectedVersionProps } from '../../utils/withSelectedVersion';
+import withLatestVersion, { WithSelectedVersionProps } from '@/utils/withSelectedVersion';
 import { useQuery } from '@apollo/client';
 import { ChampionFilterType, ChampionsByTeam, ChampionType, DataState } from '@/type/type';
 import { ALL_CHAMPIONS } from '@/type/api';
@@ -59,11 +59,14 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
     if (query.length === 0) {
       return laneFilteredChamp;
     } else {
-      return laneFilteredChamp.filter(({
-                                         id,
-                                         name,
-                                         blurb,
-                                       }) => id.toLowerCase().includes(query) || name.includes(query));
+      return laneFilteredChamp.filter((
+        {
+          id,
+          name,
+          blurb,
+        }
+        ) => id.toLowerCase().includes(query) || name.includes(query)
+      );
     }
   }, [championData, championLoading, lane, query]);
 
@@ -73,11 +76,12 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
         style={{ width: 720, height: 560, zIndex: 10 }}
         hideTracksWhenNotNeeded
         renderView={(props) => <div
-          className={'absolute inset-0 overflow-scroll flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} {...props} />}
+          className={'absolute inset-0 overflow-scroll inline-flex flex-wrap gap-y-6 gap-x-3'} {...props} />}
       >
         {
           champions.map((champion) => (
             <PickPortrait
+              className={''}
               champion={champion}
               src={`https://ddragon.leagueoflegends.com/cdn/${data || '13.3.1'}/img/champion/${champion.image.full}`}
               key={champion.id}

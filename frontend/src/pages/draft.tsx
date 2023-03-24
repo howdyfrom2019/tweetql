@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/reducers/RootReducer';
 import { addBanBlue, addBanRed } from '@/store/reducers/Banned';
 import { addPickBlue, addPickRed } from '@/store/reducers/Picked';
+import SecondTimer from '@/components/Timer/SecondTimer';
 
 type DraftPhase = 'BAN' | 'PICK';
 
@@ -207,7 +208,7 @@ const Draft = ({ ...props }) => {
         />
         <div className={'flex flex-col gap-4 items-center'}>
           <span className={'font-bold-32 text-white'}>챔피언을 {phaseUIText}할 차례입니다!</span>
-          <span className={'font-medium-32 text-white'}>59</span>
+          <SecondTimer />
         </div>
         <MusicPlayer playlist={playlists} />
       </header>
