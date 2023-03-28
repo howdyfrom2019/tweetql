@@ -2,23 +2,24 @@ import React, { useMemo } from 'react';
 import withLatestVersion, { WithSelectedVersionProps } from '@/utils/withSelectedVersion';
 import { useQuery } from '@apollo/client';
 import { ChampionFilterType, ChampionsByTeam, ChampionType, DataState } from '@/type/type';
-import { ALL_CHAMPIONS } from '@/type/api';
+import { ALL_CHAMPIONS, LOL_PATCH_VERSIONS } from '@/type/api';
 import Scrollbars from 'react-custom-scrollbars-2';
 import PickPortrait from '../Portrait/PickPortrait';
 import DraftBG from '@/assets/draft_outline.png';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/reducers/RootReducer';
 import Image from 'next/image';
+import { GetServerSideProps } from 'next';
+import { initializeApolloClient } from '@/client';
 
 interface Props extends WithSelectedVersionProps {
   portraitHandler?: (champion: ChampionType) => void;
 }
 
 const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
-  const { data, error, loading } = result as unknown as DataState<string>;
+  const { data } = result as unknown as DataState<string>;
   const {
     data: championData,
-    error: championError,
     loading: championLoading,
   } = useQuery<{ allChampion: ChampionType[] }>(ALL_CHAMPIONS,
     { variables: { version: data || '13.3.1' } });
@@ -97,3 +98,23 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
   );
 };
 export default withLatestVersion<Props>(ChampionPicks);
+
+
+export const getStaticProps: GetServerSideProps<{}, {}> = async(ctx) => {
+  const client = initializeApolloClient(ctx);
+
+  const { data } = await client.query({
+    query: LOL_PATCH_VERSIONS,
+  })
+
+  await client.query({
+    query: ALL_CHAMPIONS,
+    variables: { version: data || '13.6.1' }
+  });
+
+  return {
+    props: {
+      initialApolloState: client.cache.extract(),
+    },
+  }
+}

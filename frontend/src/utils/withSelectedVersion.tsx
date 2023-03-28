@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { DataState, LtsVersionType } from '@/type/type';
 import { useQuery } from '@apollo/client';
 import { LOL_PATCH_VERSIONS } from '@/type/api';
+import { GetServerSideProps } from 'next';
+import { initializeApolloClient } from '@/client';
 
 export interface WithSelectedVersionProps {
   result: DataState<string> | null;
@@ -20,5 +22,18 @@ const withLatestVersion = <P extends WithSelectedVersionProps>(Component: React.
     return <Component {...result} {...props as P} />;
   };
 };
+
+export const getStaticProps: GetServerSideProps<{}, {}> = async(ctx) => {
+  const client = initializeApolloClient(ctx);
+  await client.query({
+    query: LOL_PATCH_VERSIONS
+  })
+
+  return {
+    props: {
+      initialApolloState: client.cache.extract(),
+    }
+  }
+}
 
 export default withLatestVersion;

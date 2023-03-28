@@ -36,9 +36,7 @@ const Champions = () => {
       }} />
       <article className={'flex flex-col gap-8 mt-10 w-full'}>
         <header className={'flex justify-center gap-6'}>
-          {/*<Link to={'/'} className={({ isActive }) => `font-regular-18 ${!isActive && 'text-whiteAlpha'}`}>전적검색</Link>*/}
           <Link href={'/'} className={`font-regular-18`}>전적검색</Link>
-          {/*<Link to={'/champion'} className={({ isActive }) => `font-regular-18 ${!isActive && 'text-whiteAlpha'}`}>챔피언*/}
           <Link href={'/champion'} className={`font-regular-18`}>챔피언 정보</Link>
         </header>
         <main className={'flex flex-col gap-6 items-center'}>
