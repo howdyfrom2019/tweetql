@@ -10,6 +10,7 @@ const Index = () => {
   const router = useRouter();
   const [nickname, setNickname] = useState('');
   const client = useApolloClient();
+  console.log(router);
 
   const onHandleSearchName = useCallback(async (e: React.MouseEvent<SVGSVGElement> | React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
