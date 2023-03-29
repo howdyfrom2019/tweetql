@@ -9,14 +9,14 @@ import DraftBG from '@/assets/draft_outline.png';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/reducers/RootReducer';
 import Image from 'next/image';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { initializeApolloClient } from '@/client';
 
 interface Props extends WithSelectedVersionProps {
   portraitHandler?: (champion: ChampionType) => void;
 }
 
-const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
+const ChampionPicks = ({ portraitHandler, initialApolloState, ...result }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data } = result as unknown as DataState<string>;
   const {
     data: championData,
@@ -100,7 +100,7 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
 export default withLatestVersion<Props>(ChampionPicks);
 
 
-export const getStaticProps: GetServerSideProps<{}, {}> = async(ctx) => {
+export const getStaticProps: GetStaticProps = async(ctx, ...props) => {
   const client = initializeApolloClient(ctx);
 
   const { data } = await client.query({
@@ -115,6 +115,7 @@ export const getStaticProps: GetServerSideProps<{}, {}> = async(ctx) => {
   return {
     props: {
       initialApolloState: client.cache.extract(),
+      ...props
     },
   }
 }

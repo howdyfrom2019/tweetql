@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { DataState, LtsVersionType } from '@/type/type';
 import { useQuery } from '@apollo/client';
 import { LOL_PATCH_VERSIONS } from '@/type/api';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { initializeApolloClient } from '@/client';
 
 export interface WithSelectedVersionProps {
@@ -23,7 +23,7 @@ const withLatestVersion = <P extends WithSelectedVersionProps>(Component: React.
   };
 };
 
-export const getStaticProps: GetServerSideProps<{}, {}> = async(ctx) => {
+export const getStaticProps: GetStaticProps<{}, {}> = async(ctx) => {
   const client = initializeApolloClient(ctx);
   await client.query({
     query: LOL_PATCH_VERSIONS

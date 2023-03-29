@@ -16,15 +16,6 @@ const rootReducer = combineReducers<RootStoredStateType>({
   championFilter: ChampionFilter,
 });
 
-// const rootReducer = (state: RootStoredStateType, action: AnyAction): CombinedState<RootStoredStateType> => {
-//   switch (action.type) {
-//     case HYDRATE:
-//       return state;
-//     default:
-//       return combinedReducer(state, action);
-//   }
-// }
-
 export default rootReducer;
 
 export type RootState = ReturnType<typeof rootReducer>;
