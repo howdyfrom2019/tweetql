@@ -4,7 +4,8 @@ import { ChampionsByTeam } from '@/type/type';
 import { RootState } from '@/store/reducers/RootReducer';
 
 const INIT_SECONDS = 60;
-const SecondTimer = () => {
+
+const SecondTimer = ({ callback }: { callback?: () => void; }) => {
   const banned = useSelector<RootState, ChampionsByTeam>((state) => state.banned);
   const picked = useSelector<RootState, ChampionsByTeam>((state) => state.picked);
   const [seconds, setSeconds] = useState(INIT_SECONDS);
@@ -19,7 +20,10 @@ const SecondTimer = () => {
 
   useEffect(() => {
     const countdown = setInterval(() => {
-      if (seconds === 0) clearInterval(countdown);
+      if (seconds === 0) {
+        callback && callback();
+        clearInterval(countdown);
+      }
       else {
         setSeconds((prev) => prev - 1);
       }

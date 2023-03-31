@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import withLatestVersion from '../utils/withSelectedVersion';
-import PlayerPick from '../components/BanPick/PlayerPick';
-import ChampionPicks from '../components/BanPick/ChampionPicks';
-import ChampionHandler from '../components/BanPick/ChampionHandler';
-import MusicPlayer, { PlayListProps } from '../components/MusicPlayer/MusicPlayer';
-import Selector from '../components/Selector/Selector';
+import withLatestVersion from '@/utils/withSelectedVersion';
+import PlayerPick from '@/components/BanPick/PlayerPick';
+import ChampionPicks from '@/components/BanPick/ChampionPicks';
+import ChampionHandler from '@/components/BanPick/ChampionHandler';
+import MusicPlayer, { PlayListProps } from '@/components/MusicPlayer/MusicPlayer';
+import Selector from '@/components/Selector/Selector';
 import { useMp3Loader } from '@/hooks/useMp3Loader';
-import PlayerBan from '../components/BanPick/PlayerBan';
+import PlayerBan from '@/components/BanPick/PlayerBan';
 import { ChampionsByTeam, ChampionType, LANE_TYPE, TEAM_TYPE } from '@/type/type';
-import Button from '../components/Button/Button';
+import Button from '@/components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/reducers/RootReducer';
 import { addBanBlue, addBanRed } from '@/store/reducers/Banned';
@@ -51,11 +51,10 @@ const Draft = ({ ...props }) => {
     fileName: musicTitles[i],
   })), [mp3Files]);
 
-  const onFixChampionSelectInfo = useCallback(() => {
-    if (selectedChampion === null) return;
+  const onFixChampionSelectInfo = useCallback((mistake: boolean) => {
+    if (mistake && selectedChampion === null) return;
 
     const team = currentPhase === 'BAN' ? getCurrentBanOrder() : getCurrentPickOrder();
-    console.log(currentPhase, team, selectedChampion);
 
     if (currentPhase === 'BAN') {
       switch (team) {
@@ -102,9 +101,9 @@ const Draft = ({ ...props }) => {
     return 'RED';
   }, [bluePickedChampions, redPickedChampions]);
 
-  const onClickSelectButtonHandler = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    onFixChampionSelectInfo();
+  const onClickSelectButtonHandler = useCallback((e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.preventDefault();
+    onFixChampionSelectInfo(Boolean(e));
     setSelectedChampion(null);
   }, [onFixChampionSelectInfo]);
 
@@ -208,7 +207,7 @@ const Draft = ({ ...props }) => {
         />
         <div className={'flex flex-col gap-4 items-center'}>
           <span className={'font-bold-32 text-white'}>챔피언을 {phaseUIText}할 차례입니다!</span>
-          <SecondTimer />
+          <SecondTimer callback={onClickSelectButtonHandler} />
         </div>
         <MusicPlayer playlist={playlists} />
       </header>
