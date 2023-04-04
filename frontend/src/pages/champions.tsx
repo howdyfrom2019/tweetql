@@ -6,27 +6,29 @@ import Button from '@/components/Button/Button';
 import ChampionPicks from '@/components/BanPick/ChampionPicks';
 import ChampionHandler from '@/components/BanPick/ChampionHandler';
 import { useRouter } from 'next/router';
+import { LocalStorage } from '@/utils/utils';
 
 const Champions = () => {
   const [selectedVersion, setSelectedVersion] = useState('13.1.1');
   const router = useRouter();
 
-  const navigateToDraft = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+  const navigateToDraft = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    router.push({
+    await router.push({
       pathname: '/draft',
     });
   }, []);
 
-  const moveToDetailChampionPage = useCallback((champion: ChampionType) => {
+  const moveToDetailChampionPage = useCallback(async (champion: ChampionType) => {
     const { id } = champion;
-    router.push({
+    await router.push({
       pathname: '/champion/[id]/version/[version]',
       query: {
         id: id,
         version: selectedVersion,
       },
     });
+    Lo
   }, []);
 
   return (
