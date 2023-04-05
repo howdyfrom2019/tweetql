@@ -1,24 +1,25 @@
 import React, { useMemo } from 'react';
-import withLatestVersion, { WithSelectedVersionProps } from '../../utils/withSelectedVersion';
+import withLatestVersion, { WithSelectedVersionProps } from '@/utils/withSelectedVersion';
 import { useQuery } from '@apollo/client';
 import { ChampionFilterType, ChampionsByTeam, ChampionType, DataState } from '@/type/type';
-import { ALL_CHAMPIONS } from '@/type/api';
+import { ALL_CHAMPIONS, LOL_PATCH_VERSIONS } from '@/type/api';
 import Scrollbars from 'react-custom-scrollbars-2';
 import PickPortrait from '../Portrait/PickPortrait';
 import DraftBG from '@/assets/draft_outline.png';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/reducers/RootReducer';
 import Image from 'next/image';
+import { GetServerSideProps, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { initializeApolloClient } from '@/client';
 
 interface Props extends WithSelectedVersionProps {
   portraitHandler?: (champion: ChampionType) => void;
 }
 
-const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
-  const { data, error, loading } = result as unknown as DataState<string>;
+const ChampionPicks = ({ portraitHandler, initialApolloState, ...result }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { data } = result as unknown as DataState<string>;
   const {
     data: championData,
-    error: championError,
     loading: championLoading,
   } = useQuery<{ allChampion: ChampionType[] }>(ALL_CHAMPIONS,
     { variables: { version: data || '13.3.1' } });
@@ -59,11 +60,14 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
     if (query.length === 0) {
       return laneFilteredChamp;
     } else {
-      return laneFilteredChamp.filter(({
-                                         id,
-                                         name,
-                                         blurb,
-                                       }) => id.toLowerCase().includes(query) || name.includes(query));
+      return laneFilteredChamp.filter((
+        {
+          id,
+          name,
+          blurb,
+        }
+        ) => id.toLowerCase().includes(query) || name.includes(query)
+      );
     }
   }, [championData, championLoading, lane, query]);
 
@@ -73,11 +77,12 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
         style={{ width: 720, height: 560, zIndex: 10 }}
         hideTracksWhenNotNeeded
         renderView={(props) => <div
-          className={'absolute inset-0 overflow-scroll flex flex-row flex-wrap gap-x-2 gap-y-6 justify-between'} {...props} />}
+          className={'absolute inset-0 overflow-scroll inline-flex flex-wrap gap-y-6 gap-x-3'} {...props} />}
       >
         {
           champions.map((champion) => (
             <PickPortrait
+              className={''}
               champion={champion}
               src={`https://ddragon.leagueoflegends.com/cdn/${data || '13.3.1'}/img/champion/${champion.image.full}`}
               key={champion.id}
@@ -93,3 +98,24 @@ const ChampionPicks = ({ portraitHandler, ...result }: Props) => {
   );
 };
 export default withLatestVersion<Props>(ChampionPicks);
+
+
+export const getStaticProps: GetStaticProps = async(ctx, ...props) => {
+  const client = initializeApolloClient(ctx);
+
+  const { data } = await client.query({
+    query: LOL_PATCH_VERSIONS,
+  })
+
+  await client.query({
+    query: ALL_CHAMPIONS,
+    variables: { version: data || '13.6.1' }
+  });
+
+  return {
+    props: {
+      initialApolloState: client.cache.extract(),
+      ...props
+    },
+  }
+}
