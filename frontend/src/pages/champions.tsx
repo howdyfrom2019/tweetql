@@ -28,7 +28,7 @@ const Champions = () => {
         version: selectedVersion,
       },
     });
-    Lo
+    LocalStorage.setItem('Recently Searched', `[${id}]`)
   }, []);
 
   return (

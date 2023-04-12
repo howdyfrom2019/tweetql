@@ -4,6 +4,8 @@ import { useQuery } from '@apollo/client';
 import { LOL_PATCH_VERSIONS } from '@/type/api';
 import { LtsVersionType } from '@/type/type';
 import { ReactComponent as Poro } from '../../assets/poro_404.svg';
+import { LocalStorage } from '@/utils/utils';
+import Chips from '@/components/Chips/Chips';
 
 interface ChampionSideBarType {
   selectedVersionCallback?: (version: string) => void;
@@ -13,6 +15,7 @@ const ChampionSideBar: React.FC<ChampionSideBarType> = ({ selectedVersionCallbac
   const { data, error, loading } = useQuery<LtsVersionType>(LOL_PATCH_VERSIONS);
   const latestPatches = useMemo(() => (data && data.latestVersion) ? data.latestVersion.slice(0, 5) : [], [data]);
   const [selectedVersion, setSelectedVersion] = useState(0);
+  const [recentlies, setRecentlies] = useState<string[]>([]);
 
   const onChangeSelectedVersion = useCallback((e: React.MouseEvent<HTMLSpanElement>, index: number) => {
     e.preventDefault();
@@ -25,6 +28,13 @@ const ChampionSideBar: React.FC<ChampionSideBarType> = ({ selectedVersionCallbac
     }
   }, [data, selectedVersion, selectedVersionCallback]);
 
+  useEffect(() => {
+    const item = LocalStorage.getItem('Recently Searched');
+    if (item) {
+      setRecentlies(item.split('/'));
+    }
+  }, []);
+
   return (
     <aside
       className={`sticky top-0 left-0 w-72 h-screen flex flex-col justify-around items-center shadow-section bg-section z-30`}>
@@ -33,8 +43,20 @@ const ChampionSideBar: React.FC<ChampionSideBarType> = ({ selectedVersionCallbac
         <section className={'flex flex-col items-center flex-1'}>
           <span className={'font-regular-18 tracking-label uppercase text-label'}>Recently Searched</span>
           <div className={'flex flex-col items-center h-full justify-around'}>
-            <Poro />
-            <span className={'text-sm tracking-tight text-whiteAlpha'}>최근에 찾아본 챔피언이 없습니다.</span>
+            {recentlies ? (
+              <>
+                {recentlies.map((v) => (
+                  <Chips src={`https://ddragon.leagueoflegends.com/cdn/${data || '13.3.1'}/img/champion/${v}.jpg`} />
+                ))}
+              </>
+              )
+              :
+              (
+                <>
+                  <Poro />
+                  <span className={'text-sm tracking-tight text-whiteAlpha'}>최근에 찾아본 챔피언이 없습니다.</span>
+                </>
+            )}
           </div>
         </section>
         <section className={'flex flex-col items-center flex-1 gap-6'}>
