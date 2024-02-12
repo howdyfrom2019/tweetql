@@ -7,7 +7,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 const client = () => {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    uri: 'http://localhost:4000/',
+    uri: 'https://lol-draft-server.vercel.app/',
     cache: new InMemoryCache(),
   });
 }
