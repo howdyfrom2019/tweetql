@@ -28,7 +28,6 @@ const Champions = () => {
         version: selectedVersion,
       },
     });
-    Lo
   }, []);
 
   return (
